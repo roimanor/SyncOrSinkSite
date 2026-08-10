@@ -5,15 +5,15 @@
   <script type="text/javascript">
     (function() {
       var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-      var path = window.location.pathname;
+      var rawSearch = window.location.search.replace(/^\?/, '');
+      var rawPath = window.location.pathname.replace(/^.*\/redirect\/?/, '').replace(/^\/+/, '');
+      var rawHash = window.location.hash.replace(/^#/, '');
 
-      if (path.indexOf('/redirect') !== -1) {
-        if (path.substring(0, 1) === "/") {
-          path = path.substring(1);
-        }
-        var appScheme = "syncorsink://" + path;
-        var playStoreURL = "https://play.google.com/store/apps/details?id=com.SyrupyGames.SyncOrSink&hl=en";
+      var address = rawSearch || rawPath || rawHash || '';
+      var appScheme = "syncorsink://" + address;
+      var playStoreURL = "https://play.google.com/store/apps/details?id=com.SyrupyGames.SyncOrSink&hl=en";
 
+      if (window.location.pathname.indexOf('/redirect') !== -1) {
         if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
           window.location.href = appScheme;
           setTimeout(function() { window.location.href = playStoreURL; }, 2500);

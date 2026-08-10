@@ -117,14 +117,16 @@
   <script type="text/javascript">
     window.onload = function() {
         var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-        var path = window.location.pathname;
 
-        // Remove the leading slash ("/" -> "") if present to get just the address
-        if (path.substring(0, 1) === "/") {
-            path = path.substring(1);
-        }
-        // Define your links
-        var appScheme = "syncorsink://" + path;
+        // Disregard "redirect/" and extract the address from query string (?address), path (/redirect/address), or hash (#address)
+        var rawSearch = window.location.search.replace(/^\?/, '');
+        var rawPath = window.location.pathname.replace(/^.*\/redirect\/?/, '').replace(/^\/+/, '');
+        var rawHash = window.location.hash.replace(/^#/, '');
+
+        var address = rawSearch || rawPath || rawHash || '';
+
+        // Define your links — produces syncorsink://address directly (e.g. syncorsink://10.100.102.7,7778)
+        var appScheme = "syncorsink://" + address;
         var playStoreURL = "https://play.google.com/store/apps/details?id=com.SyrupyGames.SyncOrSink&hl=en";
 
         var dest = document.getElementById('dest');

@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Opening App…</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --teal: #00d4ff;
+      --orange: #ff6b35;
+      --deep: #050d1a;
+      --dark: #0a1628;
+      --muted: #8baac8;
+      --text: #e8f4ff;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,212,255,0.1) 0%, transparent 60%),
+        linear-gradient(180deg, var(--dark), var(--deep));
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+      color: var(--text);
+    }
+
+    .logo {
+      font-weight: 900;
+      font-size: 1.3rem;
+      letter-spacing: 0.05em;
+      margin-bottom: 48px;
+    }
+    .logo .s { color: var(--teal); }
+    .logo .o { color: var(--muted); font-weight: 400; }
+    .logo .k { color: var(--orange); }
+
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 3px solid rgba(0,212,255,0.15);
+      border-top-color: var(--teal);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 32px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+
+    .status {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 32px;
+      line-height: 1.6;
+      max-width: 360px;
+    }
+
+    .manual-link {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--teal), #0099cc);
+      color: var(--deep);
+      font-weight: 700;
+      font-size: 0.95rem;
+      padding: 12px 28px;
+      border-radius: 50px;
+      text-decoration: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(0,212,255,0.3);
+    }
+    .manual-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,212,255,0.5);
+    }
+
+    .countdown {
+      color: var(--teal);
+      font-weight: 600;
+    }
+  </style>
+
+  <script>
+    window.onload = function () {
+      var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+      // Strip the base repo path and get the deep-link path after /redirect/
+      var path = window.location.pathname;
+      // Remove leading /syncorsinksite/redirect
+      path = path.replace(/^\/syncorsinksite\/redirect\/?/, '') || '';
+
+      var appScheme   = 'syncorsink://' + path;
+      var appStoreURL = 'https://groups.google.com/u/3/g/syncorsinktesters';
+      var playStoreURL = 'https://groups.google.com/u/3/g/syncorsinktesters';
+      var desktopURL  = 'https://groups.google.com/g/syncorsinktesters/';
+
+      // Update status text with destination
+      var dest = document.getElementById('dest');
+      if (dest) dest.href = desktopURL;
+
+      if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        // iOS — try custom scheme, fall back to App Store
+        window.location.href = appScheme;
+        setTimeout(function () { window.location.href = appStoreURL; }, 2500);
+      } else if (/android/i.test(userAgent)) {
+        // Android — try custom scheme, fall back to Play Store
+        window.location.href = appScheme;
+        setTimeout(function () { window.location.href = playStoreURL; }, 2500);
+      } else {
+        // Desktop — go directly
+        window.location.href = desktopURL;
+      }
+
+      // Countdown display
+      var count = 3;
+      var el = document.getElementById('count');
+      if (el) {
+        var timer = setInterval(function () {
+          count--;
+          if (el) el.textContent = count;
+          if (count <= 0) clearInterval(timer);
+        }, 1000);
+      }
+    };
+  </script>
+</head>
+<body>
+  <div class="logo">
+    <span class="s">SYNC</span><span class="o"> or </span><span class="k">SINK</span>
+  </div>
+
+  <div class="spinner"></div>
+  <h1>Opening the app…</h1>
+  <p class="status">
+    Launching Sync or Sink on your device.<br />
+    If nothing happens, you'll be redirected in
+    <span class="countdown" id="count">3</span>s.
+  </p>
+  <a href="https://groups.google.com/g/syncorsinktesters/" id="dest" class="manual-link">
+    Open manually →
+  </a>
+</body>
+</html>

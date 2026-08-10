@@ -99,10 +99,10 @@
     window.onload = function () {
       var userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
-      // Strip the base repo path and get the deep-link path after /redirect/
+      // Strip base path and get the deep-link path after /redirect/
       var path = window.location.pathname;
-      // Remove leading /syncorsinksite/redirect
-      path = path.replace(/^\/syncorsinksite\/redirect\/?/, '') || '';
+      // Strips anything up to and including /redirect/ (works for both syrupygames.com and roimanor.github.io/syncorsinksite)
+      path = path.replace(/^.*\/redirect\/?/, '') || '';
 
       var appScheme   = 'syncorsink://' + path;
       var appStoreURL = 'https://groups.google.com/u/3/g/syncorsinktesters';

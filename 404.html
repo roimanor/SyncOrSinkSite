@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <script>
+    (function() {
+      var path = window.location.pathname;
+      if (/\/redirect\/.+/.test(path)) {
+        var room = path.replace(/^.*\/redirect\/?/, '');
+        window.location.replace('/redirect/?' + encodeURIComponent(room));
+      }
+    })();
+  </script>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Page Not Found – Sync or Sink</title>

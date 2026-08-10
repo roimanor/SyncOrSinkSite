@@ -99,10 +99,10 @@
     window.onload = function () {
       var userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
-      // Strip base path and get the deep-link path after /redirect/
-      var path = window.location.pathname;
-      // Strips anything up to and including /redirect/ (works for both syrupygames.com and roimanor.github.io/syncorsinksite)
-      path = path.replace(/^.*\/redirect\/?/, '') || '';
+      // Extract path segment from pathname, query parameters (?123), or hash fragment (#123)
+      var path = window.location.pathname.replace(/^.*\/redirect\/?/, '') ||
+                 window.location.search.replace(/^\?/, '') ||
+                 window.location.hash.replace(/^#/, '') || '';
 
       var appScheme   = 'syncorsink://' + path;
       var appStoreURL = 'https://groups.google.com/u/3/g/syncorsinktesters';

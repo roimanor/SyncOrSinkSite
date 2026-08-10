@@ -1,0 +1,7 @@
+# GitHub Pages config for Sync or Sink site
+# Hosted at: https://roimanor.github.io/syncorsinksite/
+
+# No Jekyll processing needed — static site
+exclude:
+  - README.md
+  - "*.json"

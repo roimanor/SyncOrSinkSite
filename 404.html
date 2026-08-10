@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page Not Found – Sync or Sink</title>
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;900&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/syncorsinksite/style.css" />
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background:
+        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,212,255,0.1) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 80%, rgba(255,107,53,0.08) 0%, transparent 50%),
+        linear-gradient(180deg, var(--clr-dark, #0a1628) 0%, var(--clr-deep, #050d1a) 100%);
+    }
+    .err-code {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(6rem, 20vw, 14rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.04em;
+      background: linear-gradient(135deg, #00d4ff 0%, rgba(0,212,255,0.3) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: none;
+      margin-bottom: 8px;
+    }
+    .err-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 700;
+      color: #e8f4ff;
+      margin-bottom: 16px;
+    }
+    .err-sub {
+      font-family: 'Inter', sans-serif;
+      color: #8baac8;
+      font-size: 1rem;
+      max-width: 400px;
+      line-height: 1.7;
+      margin-bottom: 40px;
+    }
+    .err-actions {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .btn-home {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, #00d4ff, #0099cc);
+      color: #050d1a;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 14px 28px;
+      border-radius: 50px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      box-shadow: 0 4px 20px rgba(0,212,255,0.35);
+    }
+    .btn-home:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,212,255,0.5);
+    }
+    .btn-steam {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #e8f4ff;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 14px 28px;
+      border-radius: 50px;
+      backdrop-filter: blur(10px);
+      transition: background 0.2s, transform 0.2s;
+    }
+    .btn-steam:hover {
+      background: rgba(255,255,255,0.12);
+      transform: translateY(-2px);
+    }
+    .logo-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      padding: 20px 32px;
+      display: flex;
+      align-items: center;
+    }
+    .logo-bar a {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 900;
+      font-size: 1.2rem;
+      letter-spacing: 0.05em;
+    }
+    .ls { color: #00d4ff; }
+    .lo { color: #8baac8; font-weight: 400; }
+    .lk { color: #ff6b35; }
+  </style>
+</head>
+<body>
+  <div class="logo-bar">
+    <a href="/syncorsinksite/">
+      <span class="ls">SYNC</span><span class="lo"> or </span><span class="lk">SINK</span>
+    </a>
+  </div>
+
+  <div class="err-code">404</div>
+  <h1 class="err-title">You sank.</h1>
+  <p class="err-sub">This page drifted off course — or maybe it never existed. Let's get you back to shore.</p>
+
+  <div class="err-actions">
+    <a href="/syncorsinksite/" class="btn-home">
+      ← Back to Home
+    </a>
+    <a href="https://store.steampowered.com/app/4677270/Sync_or_Sink/" target="_blank" rel="noopener" class="btn-steam">
+      View on Steam
+    </a>
+  </div>
+</body>
+</html>

@@ -243,13 +243,14 @@ ul { list-style: none; }
   justify-content: center;
   text-align: center;
   overflow: hidden;
-  padding: 100px 28px 160px;
-  background: linear-gradient(
-    180deg,
-    var(--clr-sky)      0%,
-    var(--clr-sky-mid)  55%,
-    var(--clr-sky-pale) 100%
-  );
+  padding: 100px 24px 100px;
+  background-color: #42b5d7;
+  background-image:
+    linear-gradient(180deg, rgba(66, 181, 215, 0) 0px, rgba(66, 181, 215, 0) 100px, rgba(66, 181, 215, 0.35) 240px, #42b5d7 360px, #42b5d7 100%),
+    url('assets/banner.png');
+  background-position: center top;
+  background-size: 100% auto;
+  background-repeat: no-repeat;
 }
 
 /* Animated light shimmer on hero bg */
@@ -311,80 +312,81 @@ ul { list-style: none; }
   font-weight: 700;
   color: var(--clr-green-dark);
   letter-spacing: 0.05em;
-  margin-bottom: 28px;
+  margin-bottom: 20px;
 }
 
-/* Hero image slot — user will drop in logo/art here */
 .hero-art {
   width: 100%;
-  max-width: 600px;
+  max-width: 720px;
   margin: 0 auto 32px;
-  min-height: 180px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* Placeholder styling — remove once logo added */
   border-radius: var(--radius-lg);
-  border: 2px dashed rgba(45,107,34,0.25);
+  overflow: hidden;
+  box-shadow: 0 10px 36px rgba(30,58,26,0.18);
+  border: 3px solid rgba(255,255,255,0.9);
   background: rgba(255,255,255,0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.hero-art img { max-height: 200px; width: auto; }
-.hero-art-placeholder {
-  font-family: var(--ff-display);
-  font-size: 0.85rem;
-  color: var(--clr-green-dark);
-  opacity: 0.6;
-  padding: 40px;
+.hero-art:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 44px rgba(30,58,26,0.25);
+}
+.hero-art img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
 }
 
 .hero-title {
   font-family: var(--ff-display);
-  font-size: clamp(4rem, 13vw, 9rem);
+  font-size: clamp(4.5rem, 12vw, 9.5rem);
   font-weight: 900;
-  line-height: 0.88;
-  letter-spacing: -0.02em;
-  margin-bottom: 28px;
+  line-height: 0.84;
+  letter-spacing: -0.025em;
+  margin-bottom: 24px;
 }
 .title-sync {
   display: block;
-  color: var(--clr-green-deep);
-  text-shadow: 0 3px 0 rgba(255,255,255,0.5), 0 6px 20px rgba(45,107,34,0.2);
+  color: #1A3D14;
+  text-shadow: 0 4px 0 rgba(255,255,255,0.7), 0 8px 28px rgba(0,0,0,0.22);
 }
 .title-or {
   display: block;
-  font-size: 0.28em;
-  font-weight: 500;
-  color: var(--clr-stone);
-  letter-spacing: 0.3em;
+  font-size: 0.26em;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: 0.35em;
   text-transform: uppercase;
-  margin: 6px 0;
+  margin: 4px 0;
+  text-shadow: 0 3px 10px rgba(0,0,0,0.3);
 }
 .title-sink {
   display: block;
-  color: var(--clr-water-dark);
-  text-shadow: 0 3px 0 rgba(255,255,255,0.5), 0 6px 20px rgba(0,125,138,0.25);
+  color: #043d47;
+  text-shadow: 0 4px 0 rgba(255,255,255,0.7), 0 8px 28px rgba(0,0,0,0.22);
 }
 
 .hero-tagline {
   font-family: var(--ff-display);
   font-size: clamp(1.1rem, 2.2vw, 1.55rem);
-  font-weight: 700;
-  color: var(--clr-green-deep);
+  font-weight: 800;
+  color: #1A3D14;
   margin-bottom: 12px;
+  text-shadow: 0 2px 8px rgba(255,255,255,0.5);
 }
 .hero-sub {
   font-family: var(--ff-body);
   font-size: 1.05rem;
-  color: var(--clr-green-dark);
+  color: #083321;
+  font-weight: 600;
   max-width: 520px;
-  margin: 0 auto 40px;
-  line-height: 1.75;
-  opacity: 0.85;
+  margin: 0 auto 28px;
+  line-height: 1.65;
 }
 .hero-sub em {
-  color: var(--clr-water-dark);
+  color: #043d47;
   font-style: normal;
-  font-weight: 700;
+  font-weight: 800;
 }
 
 .hero-actions {
@@ -392,7 +394,71 @@ ul { list-style: none; }
   justify-content: center;
   gap: 14px;
   flex-wrap: wrap;
-  margin-bottom: 36px;
+  margin-bottom: 20px;
+}
+
+/* Official Store Badges & CTAs */
+.btn-store {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 22px;
+  border-radius: 12px;
+  text-decoration: none;
+  font-family: var(--ff-body);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+.btn-store:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+.store-icon {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+.store-btn-text {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  line-height: 1.15;
+}
+.store-btn-sub {
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  opacity: 0.85;
+}
+.store-btn-main {
+  font-family: var(--ff-display);
+  font-size: 1.15rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+/* Steam Official Styling */
+.btn-steam {
+  background: linear-gradient(180deg, #2a475e 0%, #171a21 100%);
+  color: #ffffff;
+  border: 1px solid rgba(102, 192, 244, 0.4);
+}
+.btn-steam:hover {
+  border-color: rgba(102, 192, 244, 0.85);
+  box-shadow: 0 8px 24px rgba(102, 192, 244, 0.25);
+}
+
+/* Google Play Official Styling */
+.btn-playstore {
+  background: #000000;
+  color: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+.btn-playstore:hover {
+  border-color: rgba(255, 255, 255, 0.6);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
 }
 
 .hero-badge {
@@ -485,6 +551,35 @@ ul { list-style: none; }
 @keyframes riverFlow {
   0%, 100% { transform: translateX(0)    scaleY(1);    }
   50%       { transform: translateX(-8%) scaleY(1.15); }
+}
+
+/* ============================================================
+   TRAILER PLAYER
+   ============================================================ */
+.hero-trailer-container {
+  width: 100%;
+  max-width: 880px;
+  margin: 24px auto 32px;
+}
+.trailer-frame {
+  width: 100%;
+  max-width: 920px;
+  margin: 0 auto;
+  border-radius: var(--radius-lg, 20px);
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(30, 58, 26, 0.28);
+  border: 4px solid rgba(255, 255, 255, 0.95);
+  background: #000;
+  aspect-ratio: 16 / 9;
+  position: relative;
+}
+.trailer-frame video,
+.trailer-frame iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  object-fit: cover;
+  display: block;
 }
 
 /* ============================================================
@@ -831,6 +926,14 @@ ul { list-style: none; }
   .features-grid { grid-template-columns: repeat(2, 1fr); }
   .screenshots-grid { grid-template-columns: 1fr; }
   .screenshot-item.large { grid-row: span 1; aspect-ratio: 16/9; }
+}
+@media (max-width: 768px) {
+  #hero {
+    padding: 150px 20px 80px;
+    background-image:
+      linear-gradient(180deg, rgba(66, 181, 215, 0) 0px, rgba(66, 181, 215, 0.2) 60px, rgba(66, 181, 215, 0.7) 160px, #42b5d7 240px, #42b5d7 100%),
+      url('assets/banner.png');
+  }
 }
 @media (max-width: 600px) {
   .nav-links a:not(.btn-steam-nav) { display: none; }

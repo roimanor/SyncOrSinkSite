@@ -205,52 +205,59 @@ ul {
   height: 64px;
   display: flex;
   align-items: center;
-  background: rgba(26, 61, 20, 0.55);
+  background: rgba(18, 42, 14, 0.65);
   backdrop-filter: blur(10px);
   transition: background 0.35s, backdrop-filter 0.35s, box-shadow 0.35s;
 }
 
 #navbar.scrolled {
-  background: rgba(251, 248, 242, 0.9);
+  background: rgba(18, 42, 14, 0.88);
   backdrop-filter: blur(14px);
-  box-shadow: 0 2px 16px rgba(30, 58, 26, 0.1);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .nav-inner {
-  max-width: 1160px;
-  margin: 0 auto;
+  max-width: 100%;
   width: 100%;
+  margin: 0;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-/* Logo */
+/* Logo flush left, flowing down out of navbar */
 .nav-logo {
-  font-family: var(--ff-display);
-  font-weight: 800;
-  font-size: 1.35rem;
-  letter-spacing: 0.02em;
-  line-height: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  z-index: 110;
+  text-decoration: none;
 }
 
-.logo-sync {
-  color: #8BC34A;
+.nav-logo-img {
+  height: 210px;
+  width: auto;
+  max-width: 480px;
+  display: block;
+  filter:
+    drop-shadow(0 0 16px rgba(18, 42, 14, 0.85)) drop-shadow(0 0 36px rgba(18, 42, 14, 0.65)) drop-shadow(0 14px 42px rgba(0, 0, 0, 0.65));
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.25s ease;
+  margin-top: 100px;
+  transform-origin: top left;
 }
 
-.logo-or {
-  color: rgba(255, 255, 255, 0.5);
-  font-weight: 500;
-}
-
-.logo-sink {
-  color: var(--clr-water-bright);
+.nav-logo:hover .nav-logo-img {
+  transform: scale(1.06) rotate(-2deg);
+  filter:
+    drop-shadow(0 0 22px rgba(18, 42, 14, 0.95)) drop-shadow(0 0 48px rgba(18, 42, 14, 0.75)) drop-shadow(0 18px 52px rgba(0, 0, 0, 0.75));
 }
 
 .nav-links {
   display: flex;
   align-items: center;
   gap: 28px;
+  margin-left: auto;
 }
 
 .nav-links a {
@@ -288,14 +295,13 @@ ul {
 #hero {
   position: relative;
   min-height: 100vh;
-  max-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   text-align: center;
   overflow: hidden;
-  padding: 85px 24px 24px;
+  padding: 60px 24px 20px;
   background-color: #42b5d7;
 }
 
@@ -306,7 +312,7 @@ ul {
   top: 0;
   left: 0;
   right: 0;
-  height: 80%;
+  height: 100%;
   background-image:
     linear-gradient(180deg, rgba(255, 251, 34, 0.185) 0%, rgba(231, 255, 124, 0.144) 80%, rgba(66, 181, 215, 0.75) 90%, #42b5d7 100%),
     url('assets/Sync_or_Sinkbg.png');
@@ -464,22 +470,20 @@ ul {
   z-index: 3;
   max-width: 100%;
   width: 100%;
-  height: 100%;
-  max-height: calc(100vh - 109px);
+  min-height: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
 }
 
 .hero-bottom-content {
-  margin-top: auto;
+  margin-top: 0;
   width: 100%;
   max-width: 820px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 12px;
+  padding-top: 0;
 }
 
 .hero-eyebrow {
@@ -522,20 +526,26 @@ ul {
 }
 
 .hero-title {
-  font-family: var(--ff-display);
-  font-size: clamp(4.5rem, 12.5vw, 10.5rem);
-  font-weight: 900;
-  line-height: 0.84;
-  letter-spacing: -0.025em;
   margin: 0;
   position: absolute;
-  top: 20%;
+  top: 18%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 10;
   pointer-events: none;
-  width: 100%;
+  width: 90%;
+  max-width: 480px;
   text-align: center;
+}
+
+.title-img {
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  display: block;
+  margin: 0 auto;
+  filter: drop-shadow(0 8px 28px rgba(0, 0, 0, 0.65));
+  pointer-events: none;
 }
 
 .title-sync {
@@ -1127,19 +1137,14 @@ ul {
 .hero-trailer-container {
   width: 100%;
   max-width: 1650px;
-  max-height: 52vh;
-  margin: 8px auto 12px;
+  margin: 20px auto 24px;
   position: relative;
   z-index: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 .trailer-frame {
   width: 100%;
   max-width: 1650px;
-  max-height: 52vh;
   margin: 0 auto;
   border-radius: 0;
   overflow: hidden;
@@ -1561,10 +1566,14 @@ ul {
 }
 
 .footer-brand .footer-logo {
-  font-family: var(--ff-display);
-  font-weight: 900;
-  font-size: 1.35rem;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+.footer-logo-img {
+  height: 48px;
+  width: auto;
+  display: block;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
 }
 
 .footer-brand .logo-sync {

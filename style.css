@@ -298,13 +298,16 @@ ul {
   background-color: #42b5d7;
 }
 
-/* Banner image covering the entire hero section */
+/* Banner image covering the top 75% of the hero */
 #hero::after {
   content: '';
   position: absolute;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80%;
   background-image:
-    linear-gradient(180deg, rgba(66, 181, 215, 0) 0%, rgba(66, 181, 215, 0) 70%, rgba(66, 181, 215, 0.5) 85%, #42b5d7 100%),
+    linear-gradient(180deg, rgba(255, 251, 34, 0.185) 0%, rgba(231, 255, 124, 0.144) 80%, rgba(66, 181, 215, 0.75) 90%, #42b5d7 100%),
     url('assets/Sync_or_Sinkbg.png');
   background-position: center top;
   background-size: cover;

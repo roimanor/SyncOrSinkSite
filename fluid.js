@@ -15,30 +15,30 @@
 
   // ── Configuration ───────────────────────────────────────────────
   var CFG = {
-    SIM_RES:    128,    // velocity / pressure grid size
-    DYE_RES:    512,    // colour dye grid size
+    SIM_RES: 128,    // velocity / pressure grid size
+    DYE_RES: 512,    // colour dye grid size
     PRESS_ITER: 25,     // Jacobi pressure iterations
-    SPLAT_RAD:  0.004,  // Gaussian radius (fraction of screen)
-    FORCE:      5000,   // velocity magnitude from mouse drag
-    VEL_DISS:   0.98,   // how fast velocity fades
-    DYE_DISS:   0.970,  // how fast colour fades
-    PRE_DISS:   0.80,   // pressure residual per frame
-    AUTO_INT:   3.2,    // seconds between automatic splats
+    SPLAT_RAD: 0.0004, // Gaussian radius (fraction of screen) — 90% smaller for subtle wakes
+    FORCE: 5000,   // velocity magnitude from mouse drag
+    VEL_DISS: 0.98,   // how fast velocity fades
+    DYE_DISS: 0.970,  // how fast colour fades
+    PRE_DISS: 0.80,   // pressure residual per frame
+    AUTO_INT: 3.2,    // seconds between automatic splats
   };
 
-  // Game water colour palette (matches screenshots)
+  // Dark blue water colour palette for subtle underwater wakes
   var PAL = [
-    [0.00, 0.72, 0.91],  // bright cyan water
-    [0.00, 0.84, 0.80],  // turquoise
-    [0.36, 0.68, 0.30],  // river green
-    [0.95, 0.65, 0.14],  // autumn gold
-    [0.00, 0.55, 0.60],  // deep water
-    [0.85, 0.95, 1.00],  // foam white
+    [0.02, 0.08, 0.28],  // deep navy
+    [0.04, 0.12, 0.35],  // dark blue
+    [0.01, 0.06, 0.22],  // midnight blue
+    [0.06, 0.15, 0.40],  // dark cerulean
+    [0.03, 0.10, 0.30],  // deep water blue
+    [0.05, 0.18, 0.45],  // dark ocean
   ];
 
   function rndCol() {
     var c = PAL[Math.floor(Math.random() * PAL.length)];
-    var m = 0.3 + Math.random() * 0.5;
+    var m = 0.6 + Math.random() * 0.4;
     return [c[0] * m, c[1] * m, c[2] * m];
   }
 
@@ -47,19 +47,19 @@
   if (!canvas) return;
 
   var gl = canvas.getContext('webgl', { alpha: true, premultipliedAlpha: false, antialias: false })
-        || canvas.getContext('experimental-webgl', { alpha: true, premultipliedAlpha: false });
+    || canvas.getContext('experimental-webgl', { alpha: true, premultipliedAlpha: false });
   if (!gl) { console.warn('Fluid: WebGL not available'); return; }
 
   // Extension detection
-  var extF   = gl.getExtension('OES_texture_float');
-  var extFl  = extF && gl.getExtension('OES_texture_float_linear');
-  var extH   = !extF && gl.getExtension('OES_texture_half_float');
-  var extHl  = extH && gl.getExtension('OES_texture_half_float_linear');
+  var extF = gl.getExtension('OES_texture_float');
+  var extFl = extF && gl.getExtension('OES_texture_float_linear');
+  var extH = !extF && gl.getExtension('OES_texture_half_float');
+  var extHl = extH && gl.getExtension('OES_texture_half_float_linear');
 
   var TEX_TYPE = extF ? gl.FLOAT
-               : extH ? extH.HALF_FLOAT_OES
-               : gl.UNSIGNED_BYTE;
-  var FILTER   = (extF && extFl) || (extH && extHl) ? gl.LINEAR : gl.NEAREST;
+    : extH ? extH.HALF_FLOAT_OES
+      : gl.UNSIGNED_BYTE;
+  var FILTER = (extF && extFl) || (extH && extHl) ? gl.LINEAR : gl.NEAREST;
 
   // ── Shader compiler ─────────────────────────────────────────────
   var VS = [
@@ -180,7 +180,7 @@
       'void main() {',
       '  vec3 c = texture2D(uTex, vUv).rgb;',
       '  float a = max(c.r, max(c.g, c.b));',
-      '  gl_FragColor = vec4(c, a * 0.92);',
+      '  gl_FragColor = vec4(c, a * 0.45);',
       '}'
     ].join('\n')),
   };
@@ -189,11 +189,11 @@
   var vbuf = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, vbuf);
   gl.bufferData(gl.ARRAY_BUFFER,
-    new Float32Array([-1,-1, -1,1, 1,1, 1,-1]), gl.STATIC_DRAW);
+    new Float32Array([-1, -1, -1, 1, 1, 1, 1, -1]), gl.STATIC_DRAW);
   var ibuf = gl.createBuffer();
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibuf);
   gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,
-    new Uint16Array([0,1,2, 0,2,3]), gl.STATIC_DRAW);
+    new Uint16Array([0, 1, 2, 0, 2, 3]), gl.STATIC_DRAW);
 
   function useProg(prog) {
     if (!prog) return null;
@@ -238,8 +238,8 @@
 
     return {
       tex: tex, fbo: fbo, w: w, h: h,
-      sx: 1/w, sy: 1/h,
-      bind: function(unit) {
+      sx: 1 / w, sy: 1 / h,
+      bind: function (unit) {
         gl.activeTexture(gl.TEXTURE0 + unit);
         gl.bindTexture(gl.TEXTURE_2D, this.tex);
         return unit;
@@ -251,16 +251,16 @@
   function mkDFBO(w, h) {
     var a = mkFBO(w, h), b = mkFBO(w, h);
     return {
-      w: w, h: h, sx: 1/w, sy: 1/h,
-      get rd()  { return a; },
-      get wr()  { return b; },
-      swap: function() { var t = a; a = b; b = t; }
+      w: w, h: h, sx: 1 / w, sy: 1 / h,
+      get rd() { return a; },
+      get wr() { return b; },
+      swap: function () { var t = a; a = b; b = t; }
     };
   }
 
   function gridDims(res) {
     var ar = Math.max(canvas.width / canvas.height, 0.5);
-    return { w: Math.round(res * Math.max(ar, 1)), h: Math.round(res * Math.max(1/ar, 1)) };
+    return { w: Math.round(res * Math.max(ar, 1)), h: Math.round(res * Math.max(1 / ar, 1)) };
   }
 
   // ── Allocate simulation buffers ─────────────────────────────────
@@ -361,8 +361,9 @@
   var lastW = 0, lastH = 0;
 
   function resize() {
-    var w = canvas.parentElement.offsetWidth || window.innerWidth;
-    var h = canvas.parentElement.offsetHeight || window.innerHeight;
+    var water = document.querySelector('.hero-water');
+    var w = water ? water.offsetWidth : (canvas.parentElement.offsetWidth || window.innerWidth);
+    var h = water ? water.offsetHeight : (canvas.parentElement.offsetHeight || window.innerHeight);
     if (w === lastW && h === lastH) return;
     canvas.width = w; canvas.height = h;
     lastW = w; lastH = h;
@@ -376,8 +377,8 @@
   var mx = 0.5, my = 0.5, pmx = 0.5, pmy = 0.5;
 
   function getHeroCoords(clientX, clientY) {
-    var hero = document.getElementById('hero');
-    var r = hero ? hero.getBoundingClientRect() : { left:0, top:0, width:window.innerWidth, height:window.innerHeight };
+    var water = document.querySelector('.hero-water');
+    var r = water ? water.getBoundingClientRect() : { left: 0, top: 0, width: window.innerWidth, height: window.innerHeight };
     return {
       x: (clientX - r.left) / r.width,
       y: 1.0 - (clientY - r.top) / r.height
@@ -406,15 +407,15 @@
     }
   }
 
-  var hero = document.getElementById('hero');
-  if (hero) {
-    hero.addEventListener('mousemove', function(e) { onMove(e.clientX, e.clientY); });
-    hero.addEventListener('click',     function(e) { onClick(e.clientX, e.clientY); });
-    hero.addEventListener('touchmove', function(e) {
+  var waterZone = document.querySelector('.hero-water');
+  if (waterZone) {
+    waterZone.addEventListener('mousemove', function (e) { onMove(e.clientX, e.clientY); });
+    waterZone.addEventListener('click', function (e) { onClick(e.clientX, e.clientY); });
+    waterZone.addEventListener('touchmove', function (e) {
       e.preventDefault();
       onMove(e.touches[0].clientX, e.touches[0].clientY);
     }, { passive: false });
-    hero.addEventListener('touchstart', function(e) {
+    waterZone.addEventListener('touchstart', function (e) {
       onClick(e.touches[0].clientX, e.touches[0].clientY);
     }, { passive: true });
   }
@@ -432,7 +433,7 @@
   }
 
   // ── Main loop ────────────────────────────────────────────────────
-  var lastTime  = performance.now();
+  var lastTime = performance.now();
   var autoTimer = 0.0;
 
   // Initial seed
@@ -441,7 +442,7 @@
 
   function loop(now) {
     var dt = Math.min((now - lastTime) / 1000.0, 0.016);
-    lastTime  = now;
+    lastTime = now;
     autoTimer += dt;
 
     resize();

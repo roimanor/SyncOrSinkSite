@@ -1,24 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sync or Sink – Physics-Based Kayak Party Game</title>
-  <meta name="description" content="Sync or Sink is a chaotic physics-based local party game for 2–8 players, where your smartphone becomes your oar. Available on Steam." />
-  <meta name="keywords" content="Sync or Sink, party game, local multiplayer, kayak, smartphone controller, Steam, SyrupyGames" />
+  <meta name="description"
+    content="Sync or Sink is a chaotic physics-based local party game for 2–8 players, where your smartphone becomes your oar. Available on Steam." />
+  <meta name="keywords"
+    content="Sync or Sink, party game, local multiplayer, kayak, smartphone controller, Steam, SyrupyGames" />
   <meta property="og:title" content="Sync or Sink – Physics Party Game" />
   <meta property="og:description" content="One boat. Up to 8 paddles. Total chaos. Your phone is your oar." />
-  <meta property="og:image" content="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4677270/header.jpg" />
+  <meta property="og:image"
+    content="https://shared.fastly.steamstatic.com/store_item_assets/steam/apps/4677270/header.jpg" />
   <meta property="og:url" content="https://syrupygames.com/" />
   <meta name="twitter:card" content="summary_large_image" />
 
   <!-- Fonts: Baloo 2 (display, playful & rounded) + Nunito (body, warm & readable) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800;900&family=Nunito:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800;900&family=Nunito:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
 
   <link rel="stylesheet" href="style.css" />
 </head>
+
 <body>
 
   <!-- NAV -->
@@ -31,15 +38,28 @@
         <a href="#about">About</a>
         <a href="#features">Features</a>
         <a href="presskit/index.html">Press Kit</a>
-        <a href="https://store.steampowered.com/app/4677270/Sync_or_Sink/" target="_blank" rel="noopener" class="btn-steam-nav">Steam ↗</a>
+        <a href="https://store.steampowered.com/app/4677270/Sync_or_Sink/" target="_blank" rel="noopener"
+          class="btn-steam-nav">Steam ↗</a>
       </div>
     </div>
   </nav>
 
   <!-- HERO -->
   <header id="hero">
-    <!-- WebGL fluid simulation canvas (sits behind everything) -->
-    <canvas id="fluid-canvas" aria-hidden="true"></canvas>
+    <!-- 2D Water effect layers -->
+    <div class="hero-water" aria-hidden="true">
+      <!-- WebGL fluid simulation canvas (only within water zone) -->
+      <canvas id="fluid-canvas"></canvas>
+      <div class="water-depth"></div>
+      <div class="water-surface-wave water-surface-wave-1"></div>
+      <div class="water-surface-wave water-surface-wave-2"></div>
+      <div class="water-surface-wave water-surface-wave-3"></div>
+      <div class="water-surface-wave water-surface-wave-4"></div>
+      <div class="water-light-shaft water-light-shaft-1"></div>
+      <div class="water-light-shaft water-light-shaft-2"></div>
+      <div class="water-light-shaft water-light-shaft-3"></div>
+      <div class="water-bubbles"></div>
+    </div>
 
     <!-- Falling leaves -->
     <div class="hero-leaves" aria-hidden="true">
@@ -56,70 +76,69 @@
     </div>
 
     <div class="hero-content">
-      <div class="hero-eyebrow">🎮 Local Multiplayer Party Game</div>
-
-      <h1 class="hero-title">
-        <span class="title-sync">SYNC</span>
-        <span class="title-or">or</span>
-        <span class="title-sink">SINK</span>
-      </h1>
-
-      <!-- HERO TRAILER PLAYER -->
+      <!-- HERO TRAILER PLAYER WITH CENTERED OVERLAY LOGO -->
       <div class="hero-trailer-container">
+        <h1 class="hero-title">
+          <span class="title-sync">SYNC</span>
+          <span class="title-or">or</span>
+          <span class="title-sink">SINK</span>
+        </h1>
         <div class="trailer-frame">
-          <iframe
-            src="https://www.youtube.com/embed/B7s3wbkJn2s"
-            title="Sync or Sink Official Trailer"
+          <iframe src="https://www.youtube.com/embed/B7s3wbkJn2s" title="Sync or Sink Official Trailer"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowfullscreen>
           </iframe>
         </div>
       </div>
 
-      <p class="hero-tagline">One boat. Up to eight paddles. Total chaos.</p>
-      <p class="hero-sub">Your smartphone is your oar. Tilt, swing, and paddle through raging rivers — but only if your crew can <em>actually sync up</em>.</p>
+      <!-- Everything after title slid to bottom of hero -->
+      <div class="hero-bottom-content">
+        <p class="hero-tagline">One boat. Up to eight paddles. Total chaos.</p>
+        <p class="hero-sub">Your smartphone is your oar. Tilt, swing, and paddle through raging rivers — but only if your
+          crew can <em>actually sync up</em>.</p>
 
-      <div class="hero-actions">
-        <!-- STEAM OFFICIAL BADGE BUTTON -->
-        <a href="https://store.steampowered.com/app/4677270/Sync_or_Sink/" target="_blank" rel="noopener" class="btn-store btn-steam" id="steam-cta-btn">
-          <svg class="store-icon steam-icon" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0zM7.54 18.21l-1.473-.61c.262.543.714.999 1.314 1.25 1.297.539 2.793-.076 3.332-1.375.263-.63.264-1.319.005-1.949s-.75-1.121-1.377-1.383c-.624-.26-1.29-.249-1.878-.03l1.523.63c.956.4 1.409 1.5 1.009 2.455-.397.957-1.497 1.41-2.455 1.012zm11.415-9.303c0-1.662-1.353-3.015-3.015-3.015-1.665 0-3.015 1.353-3.015 3.015 0 1.665 1.35 3.015 3.015 3.015 1.663 0 3.015-1.35 3.015-3.015zm-5.273-.005c0-1.252 1.013-2.266 2.265-2.266 1.249 0 2.266 1.014 2.266 2.266 0 1.251-1.017 2.265-2.266 2.265-1.252 0-2.265-1.014-2.265-2.265z"/>
-          </svg>
-          <div class="store-btn-text">
-            <span class="store-btn-sub">WISHLIST ON</span>
-            <span class="store-btn-main">STEAM</span>
-          </div>
-        </a>
+        <div class="hero-actions">
+          <!-- STEAM OFFICIAL BADGE BUTTON -->
+          <a href="https://store.steampowered.com/app/4677270/Sync_or_Sink/" target="_blank" rel="noopener"
+            class="btn-store btn-steam" id="steam-cta-btn">
+            <svg class="store-icon steam-icon" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0zM7.54 18.21l-1.473-.61c.262.543.714.999 1.314 1.25 1.297.539 2.793-.076 3.332-1.375.263-.63.264-1.319.005-1.949s-.75-1.121-1.377-1.383c-.624-.26-1.29-.249-1.878-.03l1.523.63c.956.4 1.409 1.5 1.009 2.455-.397.957-1.497 1.41-2.455 1.012zm11.415-9.303c0-1.662-1.353-3.015-3.015-3.015-1.665 0-3.015 1.353-3.015 3.015 0 1.665 1.35 3.015 3.015 3.015 1.663 0 3.015-1.35 3.015-3.015zm-5.273-.005c0-1.252 1.013-2.266 2.265-2.266 1.249 0 2.266 1.014 2.266 2.266 0 1.251-1.017 2.265-2.266 2.265-1.252 0-2.265-1.014-2.265-2.265z" />
+            </svg>
+            <div class="store-btn-text">
+              <span class="store-btn-sub">WISHLIST ON</span>
+              <span class="store-btn-main">STEAM</span>
+            </div>
+          </a>
 
-        <!-- GOOGLE PLAY OFFICIAL BADGE BUTTON -->
-        <a href="https://play.google.com/store/apps/details?id=com.SyrupyGames.SyncOrSink&hl=en" target="_blank" rel="noopener" class="btn-store btn-playstore" id="playstore-cta-btn">
-          <svg class="store-icon play-icon" viewBox="0 0 512 512">
-            <path fill="#4285F4" d="M325.8 243.8L61.4 478.4c-6.8-6.1-10.8-15.1-10.8-24.9V58.5c0-9.8 4-18.8 10.8-24.9l264.4 210.2z"/>
-            <path fill="#34A853" d="M387.8 293.4l-62-49.6L61.4 478.4c7.3 6.6 17 10.6 27.6 10.6 6.3 0 12.3-1.4 17.7-4L387.8 293.4z"/>
-            <path fill="#FBBC05" d="M439.4 227.6l-51.6 29.8 61.8 49.4c11.3-6.6 18.9-18.8 18.9-32.8s-7.6-26.2-19.1-32.8l-10-13.6z"/>
-            <path fill="#EA4335" d="M387.8 218.6L106.7 27c-5.4-2.6-11.4-4-17.7-4-10.6 0-20.3 4-27.6 10.6l264.4 234.8 62-49.8z"/>
-          </svg>
-          <div class="store-btn-text">
-            <span class="store-btn-sub">GET IT ON</span>
-            <span class="store-btn-main">Google Play</span>
-          </div>
-        </a>
+          <!-- GOOGLE PLAY OFFICIAL BADGE BUTTON -->
+          <a href="https://play.google.com/store/apps/details?id=com.SyrupyGames.SyncOrSink&hl=en" target="_blank"
+            rel="noopener" class="btn-store btn-playstore" id="playstore-cta-btn">
+            <svg class="store-icon play-icon" viewBox="0 0 512 512">
+              <path fill="#4285F4"
+                d="M325.8 243.8L61.4 478.4c-6.8-6.1-10.8-15.1-10.8-24.9V58.5c0-9.8 4-18.8 10.8-24.9l264.4 210.2z" />
+              <path fill="#34A853"
+                d="M387.8 293.4l-62-49.6L61.4 478.4c7.3 6.6 17 10.6 27.6 10.6 6.3 0 12.3-1.4 17.7-4L387.8 293.4z" />
+              <path fill="#FBBC05"
+                d="M439.4 227.6l-51.6 29.8 61.8 49.4c11.3-6.6 18.9-18.8 18.9-32.8s-7.6-26.2-19.1-32.8l-10-13.6z" />
+              <path fill="#EA4335"
+                d="M387.8 218.6L106.7 27c-5.4-2.6-11.4-4-17.7-4-10.6 0-20.3 4-27.6 10.6l264.4 234.8 62-49.8z" />
+            </svg>
+            <div class="store-btn-text">
+              <span class="store-btn-sub">GET IT ON</span>
+              <span class="store-btn-main">Google Play</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="hero-badge">
+          <span>2–8 Players</span>
+          <span class="badge-sep">·</span>
+          <span>Google Play Controller App</span>
+          <span class="badge-sep">·</span>
+          <span>Local Multiplayer</span>
+        </div>
       </div>
-
-      <div class="hero-badge">
-        <span>2–8 Players</span>
-        <span class="badge-sep">·</span>
-        <span>Google Play Controller App</span>
-        <span class="badge-sep">·</span>
-        <span>Local Multiplayer</span>
-      </div>
-    </div>
-
-    <!-- Animated river flowing into the next section -->
-    <div class="hero-river" aria-hidden="true">
-      <div class="river-layer river-layer-1"></div>
-      <div class="river-layer river-layer-2"></div>
-      <div class="river-layer river-layer-3"></div>
     </div>
   </header>
 
@@ -130,24 +149,33 @@
         <div class="about-text">
           <span class="section-label">About the Game</span>
           <h2>Chaos is the point.</h2>
-          <p>Sync or Sink drops you and your friends into a single canoe on wild, unpredictable rivers. Each player controls one oar using their phone — scan the QR code to connect with the mobile controller app and start paddling.</p>
-          <p>The catch? The boat only goes where <em>everyone</em> paddles it. Getting eight people to row in the same direction is harder than it sounds, and that's exactly where the fun begins.</p>
+          <p>Sync or Sink drops you and your friends into a single canoe on wild, unpredictable rivers. Each player
+            controls one oar using their phone — scan the QR code to connect with the mobile controller app and start
+            paddling.</p>
+          <p>The catch? The boat only goes where <em>everyone</em> paddles it. Getting eight people to row in the same
+            direction is harder than it sounds, and that's exactly where the fun begins.</p>
           <ul class="about-list">
             <li>
               <span class="list-icon">📱</span>
-              <div><strong>Your Phone is Your Oar</strong>Tilt, swing, and move to control your paddle with the mobile app.</div>
+              <div><strong>Your Phone is Your Oar</strong>Tilt, swing, and move to control your paddle with the mobile
+                app.</div>
             </li>
             <li>
               <span class="list-icon">🌊</span>
-              <div><strong>Live Water Physics</strong>Navigate treacherous rapids with real-time physics simulation.</div>
+              <div><strong>Live Water Physics</strong>Navigate treacherous rapids with real-time physics simulation.
+              </div>
             </li>
             <li>
               <span class="list-icon">🎉</span>
               <div><strong>Instant Party</strong>Up to 8 players on one screen, no extra hardware required.</div>
             </li>
           </ul>
-          <a href="https://store.steampowered.com/app/4677270/Sync_or_Sink/" target="_blank" rel="noopener" class="btn-primary">
-            <svg class="steam-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0zM7.54 18.21l-1.473-.61c.262.543.714.999 1.314 1.25 1.297.539 2.793-.076 3.332-1.375.263-.63.264-1.319.005-1.949s-.75-1.121-1.377-1.383c-.624-.26-1.29-.249-1.878-.03l1.523.63c.956.4 1.409 1.5 1.009 2.455-.397.957-1.497 1.41-2.455 1.012zm11.415-9.303c0-1.662-1.353-3.015-3.015-3.015-1.665 0-3.015 1.353-3.015 3.015 0 1.665 1.35 3.015 3.015 3.015 1.663 0 3.015-1.35 3.015-3.015zm-5.273-.005c0-1.252 1.013-2.266 2.265-2.266 1.249 0 2.266 1.014 2.266 2.266 0 1.251-1.017 2.265-2.266 2.265-1.252 0-2.265-1.014-2.265-2.265z"/></svg>
+          <a href="https://store.steampowered.com/app/4677270/Sync_or_Sink/" target="_blank" rel="noopener"
+            class="btn-primary">
+            <svg class="steam-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+              <path
+                d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0zM7.54 18.21l-1.473-.61c.262.543.714.999 1.314 1.25 1.297.539 2.793-.076 3.332-1.375.263-.63.264-1.319.005-1.949s-.75-1.121-1.377-1.383c-.624-.26-1.29-.249-1.878-.03l1.523.63c.956.4 1.409 1.5 1.009 2.455-.397.957-1.497 1.41-2.455 1.012zm11.415-9.303c0-1.662-1.353-3.015-3.015-3.015-1.665 0-3.015 1.353-3.015 3.015 0 1.665 1.35 3.015 3.015 3.015 1.663 0 3.015-1.35 3.015-3.015zm-5.273-.005c0-1.252 1.013-2.266 2.265-2.266 1.249 0 2.266 1.014 2.266 2.266 0 1.251-1.017 2.265-2.266 2.265-1.252 0-2.265-1.014-2.265-2.265z" />
+            </svg>
             View on Steam
           </a>
         </div>
@@ -172,27 +200,32 @@
         <div class="feature-card">
           <span class="feature-icon">🔗</span>
           <h3>Scan &amp; Play</h3>
-          <p>Scan to connect. No extra controllers needed. Players scan a QR code with their phone to launch the app and instantly have a paddle in their hand.</p>
+          <p>Scan to connect. No extra controllers needed. Players scan a QR code with their phone to launch the app and
+            instantly have a paddle in their hand.</p>
         </div>
         <div class="feature-card">
           <span class="feature-icon">🚣</span>
           <h3>Physics-Based Rowing</h3>
-          <p>Every player's real movements translate to live oar physics. Tilt, swing, push — your phone gyroscope is the controller.</p>
+          <p>Every player's real movements translate to live oar physics. Tilt, swing, push — your phone gyroscope is
+            the controller.</p>
         </div>
         <div class="feature-card">
           <span class="feature-icon">💬</span>
           <h3>Communication Required</h3>
-          <p>The boat only goes where you all agree it goes. Coordination — and a lot of yelling — is the core gameplay loop.</p>
+          <p>The boat only goes where you all agree it goes. Coordination — and a lot of yelling — is the core gameplay
+            loop.</p>
         </div>
         <div class="feature-card">
           <span class="feature-icon">🌊</span>
           <h3>Live Water Physics</h3>
-          <p>Navigate raging rapids, sweeping currents, and atmospheric river environments with real-time water simulation.</p>
+          <p>Navigate raging rapids, sweeping currents, and atmospheric river environments with real-time water
+            simulation.</p>
         </div>
         <div class="feature-card">
           <span class="feature-icon">👥</span>
           <h3>2–8 Players</h3>
-          <p>Works with any group size. Get two friends rowing or fill an entire canoe — the chaos scales with the headcount.</p>
+          <p>Works with any group size. Get two friends rowing or fill an entire canoe — the chaos scales with the
+            headcount.</p>
         </div>
         <div class="feature-card">
           <span class="feature-icon">⏱️</span>
@@ -219,7 +252,7 @@
           <img src="assets/gameplay2.gif" alt="Sync or Sink — Water Rapids Action" />
         </div>
         <div class="screenshot-item">
-          <img src="assets/banner.png" alt="Sync or Sink — River Scene Artwork" />
+          <img src="assets/Sync_or_Sinkbg.png" alt="Sync or Sink — River Scene Artwork" />
         </div>
       </div>
     </div>
@@ -239,9 +272,11 @@
           <p>Wishlist Sync or Sink on Steam and get the companion app on Google Play.</p>
           <div class="cta-actions">
             <!-- STEAM OFFICIAL BADGE BUTTON -->
-            <a href="https://store.steampowered.com/app/4677270/Sync_or_Sink/" target="_blank" rel="noopener" class="btn-store btn-steam" id="steam-bottom-btn">
+            <a href="https://store.steampowered.com/app/4677270/Sync_or_Sink/" target="_blank" rel="noopener"
+              class="btn-store btn-steam" id="steam-bottom-btn">
               <svg class="store-icon steam-icon" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0zM7.54 18.21l-1.473-.61c.262.543.714.999 1.314 1.25 1.297.539 2.793-.076 3.332-1.375.263-.63.264-1.319.005-1.949s-.75-1.121-1.377-1.383c-.624-.26-1.29-.249-1.878-.03l1.523.63c.956.4 1.409 1.5 1.009 2.455-.397.957-1.497 1.41-2.455 1.012zm11.415-9.303c0-1.662-1.353-3.015-3.015-3.015-1.665 0-3.015 1.353-3.015 3.015 0 1.665 1.35 3.015 3.015 3.015 1.663 0 3.015-1.35 3.015-3.015zm-5.273-.005c0-1.252 1.013-2.266 2.265-2.266 1.249 0 2.266 1.014 2.266 2.266 0 1.251-1.017 2.265-2.266 2.265-1.252 0-2.265-1.014-2.265-2.265z"/>
+                <path
+                  d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.004.105.004.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 15.27C1.862 20.307 6.486 24 11.979 24c6.627 0 11.999-5.373 11.999-12S18.606 0 11.979 0zM7.54 18.21l-1.473-.61c.262.543.714.999 1.314 1.25 1.297.539 2.793-.076 3.332-1.375.263-.63.264-1.319.005-1.949s-.75-1.121-1.377-1.383c-.624-.26-1.29-.249-1.878-.03l1.523.63c.956.4 1.409 1.5 1.009 2.455-.397.957-1.497 1.41-2.455 1.012zm11.415-9.303c0-1.662-1.353-3.015-3.015-3.015-1.665 0-3.015 1.353-3.015 3.015 0 1.665 1.35 3.015 3.015 3.015 1.663 0 3.015-1.35 3.015-3.015zm-5.273-.005c0-1.252 1.013-2.266 2.265-2.266 1.249 0 2.266 1.014 2.266 2.266 0 1.251-1.017 2.265-2.266 2.265-1.252 0-2.265-1.014-2.265-2.265z" />
               </svg>
               <div class="store-btn-text">
                 <span class="store-btn-sub">WISHLIST ON</span>
@@ -250,12 +285,17 @@
             </a>
 
             <!-- GOOGLE PLAY OFFICIAL BADGE BUTTON -->
-            <a href="https://play.google.com/store/apps/details?id=com.SyrupyGames.SyncOrSink&hl=en" target="_blank" rel="noopener" class="btn-store btn-playstore" id="playstore-bottom-btn">
+            <a href="https://play.google.com/store/apps/details?id=com.SyrupyGames.SyncOrSink&hl=en" target="_blank"
+              rel="noopener" class="btn-store btn-playstore" id="playstore-bottom-btn">
               <svg class="store-icon play-icon" viewBox="0 0 512 512">
-                <path fill="#4285F4" d="M325.8 243.8L61.4 478.4c-6.8-6.1-10.8-15.1-10.8-24.9V58.5c0-9.8 4-18.8 10.8-24.9l264.4 210.2z"/>
-                <path fill="#34A853" d="M387.8 293.4l-62-49.6L61.4 478.4c7.3 6.6 17 10.6 27.6 10.6 6.3 0 12.3-1.4 17.7-4L387.8 293.4z"/>
-                <path fill="#FBBC05" d="M439.4 227.6l-51.6 29.8 61.8 49.4c11.3-6.6 18.9-18.8 18.9-32.8s-7.6-26.2-19.1-32.8l-10-13.6z"/>
-                <path fill="#EA4335" d="M387.8 218.6L106.7 27c-5.4-2.6-11.4-4-17.7-4-10.6 0-20.3 4-27.6 10.6l264.4 234.8 62-49.8z"/>
+                <path fill="#4285F4"
+                  d="M325.8 243.8L61.4 478.4c-6.8-6.1-10.8-15.1-10.8-24.9V58.5c0-9.8 4-18.8 10.8-24.9l264.4 210.2z" />
+                <path fill="#34A853"
+                  d="M387.8 293.4l-62-49.6L61.4 478.4c7.3 6.6 17 10.6 27.6 10.6 6.3 0 12.3-1.4 17.7-4L387.8 293.4z" />
+                <path fill="#FBBC05"
+                  d="M439.4 227.6l-51.6 29.8 61.8 49.4c11.3-6.6 18.9-18.8 18.9-32.8s-7.6-26.2-19.1-32.8l-10-13.6z" />
+                <path fill="#EA4335"
+                  d="M387.8 218.6L106.7 27c-5.4-2.6-11.4-4-17.7-4-10.6 0-20.3 4-27.6 10.6l264.4 234.8 62-49.8z" />
               </svg>
               <div class="store-btn-text">
                 <span class="store-btn-sub">GET IT ON</span>
@@ -266,9 +306,11 @@
           <div class="cta-links">
             <a href="presskit/index.html">Press Kit</a>
             <span>·</span>
-            <a href="https://store.steampowered.com/app/4677270/Sync_or_Sink/" target="_blank" rel="noopener">Steam Page</a>
+            <a href="https://store.steampowered.com/app/4677270/Sync_or_Sink/" target="_blank" rel="noopener">Steam
+              Page</a>
             <span>·</span>
-            <a href="https://play.google.com/store/apps/details?id=com.SyrupyGames.SyncOrSink&hl=en" target="_blank" rel="noopener">Google Play Store</a>
+            <a href="https://play.google.com/store/apps/details?id=com.SyrupyGames.SyncOrSink&hl=en" target="_blank"
+              rel="noopener">Google Play Store</a>
           </div>
         </div>
       </div>
@@ -287,7 +329,8 @@
         </div>
         <div class="footer-links">
           <a href="https://store.steampowered.com/app/4677270/Sync_or_Sink/" target="_blank" rel="noopener">Steam</a>
-          <a href="https://play.google.com/store/apps/details?id=com.SyrupyGames.SyncOrSink&hl=en" target="_blank" rel="noopener">Google Play</a>
+          <a href="https://play.google.com/store/apps/details?id=com.SyrupyGames.SyncOrSink&hl=en" target="_blank"
+            rel="noopener">Google Play</a>
           <a href="presskit/index.html">Press Kit</a>
         </div>
       </div>
@@ -298,6 +341,7 @@
   </footer>
 
   <script src="main.js"></script>
-  <!-- <script src="fluid.js"></script> -->
+  <script src="fluid.js"></script>
 </body>
+
 </html>

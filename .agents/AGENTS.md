@@ -1,5 +1,5 @@
 # Project Rules
 
 ## Git Workflow
-- NEVER run ANY `git` commands (e.g. `git status`, `git add`, `git commit`, `git revert`, `git push`, etc.) automatically or proactively.
-- ONLY execute `git` commands when the user explicitly instructs or requests to run git.
+- ONLY execute `git` commands if the user explicitly triggers the `/git` command.
+- Under NO other circumstances (even if the user says "push", "commit", or "save") are you allowed to interact with `git` or execute any `git` commands.

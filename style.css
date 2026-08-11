@@ -1646,9 +1646,19 @@ ul {
   }
 }
 
-@media (max-width: 768px) {
+@media (orientation: portrait), (max-width: 768px) {
   #hero {
-    padding: 120px 20px 80px;
+    padding: 70px 16px 30px;
+  }
+
+  #hero::after {
+    height: 50%;
+  }
+
+  .nav-logo-img {
+    height: 110px;
+    max-width: 260px;
+    margin-top: 20px;
   }
 
   .hero-content {

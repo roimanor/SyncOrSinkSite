@@ -46,3 +46,4 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
 document.addEventListener('DOMContentLoaded', () => {
   initScrollAnimations();
 });
+

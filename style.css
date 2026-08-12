@@ -1660,15 +1660,25 @@ ul {
   .nav-logo-img {
     height: 110px;
     max-width: 260px;
-    margin-top: 20px;
+    margin-top: 40px;
   }
 
   .hero-content {
     min-height: calc(100vh - 100px);
+    justify-content: center;
+  }
+
+  .hero-trailer-container {
+    margin: auto 0;
+  }
+
+  .hero-bottom-content {
+    margin-top: 0;
+    flex: initial;
   }
 }
 
-@media (max-width: 100px) {
+@media (max-width: 600px) {
 
   .hero-title {
     font-size: clamp(3rem, 14vw, 5.5rem);

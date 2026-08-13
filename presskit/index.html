@@ -11,6 +11,7 @@
   <link
     href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800;900&family=Nunito:wght@400;500;600;700&display=swap"
     rel="stylesheet" />
+  <link rel="icon" type="image/png" href="../assets/syrupygames.png" />
   <link rel="stylesheet" href="../style.css" />
   <style>
     :root {
@@ -117,6 +118,66 @@
     .contact-card a {
       color: var(--clr-teal);
     }
+
+    .logo-asset-card {
+      background: var(--clr-surface2, #ffffff);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .logo-asset-preview {
+      padding: 24px;
+      background: radial-gradient(circle at center, #ffffff, #f4f6f8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 140px;
+      border-bottom: 1px solid var(--clr-border);
+    }
+
+    .logo-asset-preview img {
+      max-height: 90px;
+      max-width: 80%;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.1));
+    }
+
+    .logo-asset-info {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .logo-asset-info strong {
+      font-family: var(--ff-display);
+      font-size: 0.95rem;
+      color: var(--clr-text);
+    }
+
+    .logo-download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: var(--radius-sm);
+      background: var(--clr-teal);
+      color: #fff !important;
+      font-family: var(--ff-display);
+      font-weight: 600;
+      font-size: 0.85rem;
+      transition: transform 0.15s, background 0.15s;
+    }
+
+    .logo-download-btn:hover {
+      background: var(--clr-water-bright, #00D4E8);
+      transform: translateY(-1px);
+    }
   </style>
 </head>
 
@@ -132,8 +193,6 @@
         <a href="../index.html">Home</a>
         <a href="../index.html#about">About</a>
         <a href="../index.html#features">Features</a>
-        <a href="https://store.steampowered.com/app/4677270/Sync_or_Sink/" target="_blank" rel="noopener"
-          class="btn-steam-nav">Steam</a>
       </div>
     </div>
   </nav>
@@ -158,7 +217,13 @@
         </tr>
         <tr>
           <td>Developer</td>
-          <td>SyrupyGames</td>
+          <td>
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <img src="../assets/syrupygames.png" alt="SyrupyGames Logo"
+                style="height: 28px; width: auto; background: #fff; padding: 2px 6px; border-radius: 6px; border: 1px solid var(--clr-border);" />
+              <span>SyrupyGames</span>
+            </div>
+          </td>
         </tr>
         <tr>
           <td>Platform</td>
@@ -247,6 +312,44 @@
             style="width:100%; height:100%; object-fit:cover; display:block;" />
         </div>
       </div>
+      <h3 style="font-size: 1.15rem; margin-bottom: 12px; color: var(--clr-teal); font-family: var(--ff-display);">
+        Logos &amp; Branding</h3>
+      <div
+        style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 32px;">
+        <div class="logo-asset-card">
+          <div class="logo-asset-preview">
+            <img src="../assets/syrupygames.png" alt="SyrupyGames Studio Logo" />
+          </div>
+          <div class="logo-asset-info">
+            <strong>SyrupyGames Studio Logo</strong>
+            <a href="../assets/syrupygames.png" target="_blank" download="syrupygames.png" class="logo-download-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              Download
+            </a>
+          </div>
+        </div>
+        <div class="logo-asset-card">
+          <div class="logo-asset-preview">
+            <img src="../assets/title2.png" alt="Sync or Sink Game Logo" />
+          </div>
+          <div class="logo-asset-info">
+            <strong>Sync or Sink Game Logo</strong>
+            <a href="../assets/title2.png" target="_blank" download="title2.png" class="logo-download-btn">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                <polyline points="7 10 12 15 17 10" />
+                <line x1="12" y1="15" x2="12" y2="3" />
+              </svg>
+              Download
+            </a>
+          </div>
+        </div>
+      </div>
+
       <div class="coming-soon-box">
         <div class="icon">📦</div>
         <h3>Full press kit coming soon</h3>
@@ -281,7 +384,10 @@
       <div class="footer-inner">
         <div class="footer-brand">
           <div class="footer-logo"><img src="../assets/title2.png" alt="Sync or Sink" class="footer-logo-img" /></div>
-          <p>A physics-based party game by SyrupyGames</p>
+          <div class="footer-studio">
+            <img src="../assets/syrupygames.png" alt="SyrupyGames Logo" class="footer-studio-logo" />
+            <p>A physics-based party game by SyrupyGames</p>
+          </div>
         </div>
         <div class="footer-links">
           <a href="../">Home</a>

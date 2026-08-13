@@ -6,6 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Opening App…</title>
   <meta name="robots" content="noindex" />
+  <link rel="icon" type="image/png" href="../assets/syrupygames.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;900&display=swap" rel="stylesheet" />
@@ -115,50 +116,50 @@
   </style>
 
   <script type="text/javascript">
-    window.onload = function() {
-        var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+    window.onload = function () {
+      var userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
-        // Disregard "redirect/" and extract the address from query string (?address), path (/redirect/address), or hash (#address)
-        var rawSearch = window.location.search.replace(/^\?/, '');
-        var rawPath = window.location.pathname.replace(/^.*\/redirect\/?/, '').replace(/^\/+/, '');
-        var rawHash = window.location.hash.replace(/^#/, '');
+      // Disregard "redirect/" and extract the address from query string (?address), path (/redirect/address), or hash (#address)
+      var rawSearch = window.location.search.replace(/^\?/, '');
+      var rawPath = window.location.pathname.replace(/^.*\/redirect\/?/, '').replace(/^\/+/, '');
+      var rawHash = window.location.hash.replace(/^#/, '');
 
-        var address = rawSearch || rawPath || rawHash || '';
+      var address = rawSearch || rawPath || rawHash || '';
 
-        // Define your links — produces syncorsink://address directly (e.g. syncorsink://10.100.102.7,7778)
-        var appScheme = "syncorsink://" + address;
-        var playStoreURL = "https://play.google.com/store/apps/details?id=com.SyrupyGames.SyncOrSink&hl=en";
+      // Define your links — produces syncorsink://address directly (e.g. syncorsink://10.100.102.7,7778)
+      var appScheme = "syncorsink://" + address;
+      var playStoreURL = "https://play.google.com/store/apps/details?id=com.SyrupyGames.SyncOrSink&hl=en";
 
-        var dest = document.getElementById('dest');
-        if (dest) dest.href = playStoreURL;
+      var dest = document.getElementById('dest');
+      if (dest) dest.href = playStoreURL;
 
-        if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-            // Try to open iOS App
-            window.location.href = appScheme;
-            // Fallback to App Store after 2.5 seconds
-            setTimeout(function() { window.location.href = playStoreURL; }, 2500);
-        } 
-        else if (/android/i.test(userAgent)) {
-            // Try to open Android App
-            window.location.href = appScheme;
-            // Fallback to Play Store after 2.5 seconds
-            setTimeout(function() { window.location.href = playStoreURL; }, 2500);
-        } 
-        else {
-            // Desktop fallback
-            window.location.href = "https://store.steampowered.com/app/4677270/Sync_or_Sink/";
-        }
+      if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
+        // Try to open iOS App
+        window.location.href = appScheme;
+        // Fallback to App Store after 2.5 seconds
+        setTimeout(function () { window.location.href = playStoreURL; }, 2500);
+      }
+      else if (/android/i.test(userAgent)) {
+        // Try to open Android App
+        window.location.href = appScheme;
+        // Fallback to Play Store after 2.5 seconds
+        setTimeout(function () { window.location.href = playStoreURL; }, 2500);
+      }
+      else {
+        // Desktop fallback
+        window.location.href = "https://store.steampowered.com/app/4677270/Sync_or_Sink/";
+      }
 
-        // Countdown display
-        var count = 3;
-        var el = document.getElementById('count');
-        if (el) {
-          var timer = setInterval(function () {
-            count--;
-            if (el) el.textContent = count;
-            if (count <= 0) clearInterval(timer);
-          }, 1000);
-        }
+      // Countdown display
+      var count = 3;
+      var el = document.getElementById('count');
+      if (el) {
+        var timer = setInterval(function () {
+          count--;
+          if (el) el.textContent = count;
+          if (count <= 0) clearInterval(timer);
+        }, 1000);
+      }
     };
   </script>
 </head>

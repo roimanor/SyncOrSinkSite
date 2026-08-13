@@ -3,7 +3,7 @@
 
 <head>
   <script type="text/javascript">
-    (function() {
+    (function () {
       var userAgent = navigator.userAgent || navigator.vendor || window.opera;
       var rawSearch = window.location.search.replace(/^\?/, '');
       var rawPath = window.location.pathname.replace(/^.*\/redirect\/?/, '').replace(/^\/+/, '');
@@ -16,12 +16,12 @@
       if (window.location.pathname.indexOf('/redirect') !== -1) {
         if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
           window.location.href = appScheme;
-          setTimeout(function() { window.location.href = playStoreURL; }, 2500);
-        } 
+          setTimeout(function () { window.location.href = playStoreURL; }, 2500);
+        }
         else if (/android/i.test(userAgent)) {
           window.location.href = appScheme;
-          setTimeout(function() { window.location.href = playStoreURL; }, 2500);
-        } 
+          setTimeout(function () { window.location.href = playStoreURL; }, 2500);
+        }
         else {
           window.location.href = "https://store.steampowered.com/app/4677270/Sync_or_Sink/";
         }

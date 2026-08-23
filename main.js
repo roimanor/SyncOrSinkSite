@@ -1,5 +1,5 @@
 /* =========================================================
-   main.js — Sync or Sink site interactions
+   main.js — Sync - Sink site interactions
    ========================================================= */
 
 // --- Navbar: add 'scrolled' class on scroll ---

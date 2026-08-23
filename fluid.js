@@ -1,6 +1,6 @@
 /* ================================================================
    fluid.js — WebGL Navier-Stokes Fluid Simulation
-   Sync or Sink website — interactive water background for hero
+   Sync - Sink website — interactive water background for hero
    
    Architecture:
      - GPU-side simulation via ping-pong FBOs

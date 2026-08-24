@@ -178,6 +178,56 @@
       background: var(--clr-water-bright, #00D4E8);
       transform: translateY(-1px);
     }
+
+    .drive-download-box {
+      background: var(--clr-surface);
+      border: 2px solid var(--clr-border-water);
+      border-radius: var(--radius-md);
+      padding: 40px 32px;
+      text-align: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .drive-download-box .icon {
+      font-size: 2.8rem;
+      margin-bottom: 12px;
+    }
+
+    .drive-download-box h3 {
+      font-family: var(--ff-display);
+      font-size: 1.35rem;
+      color: var(--clr-text);
+      margin-bottom: 8px;
+    }
+
+    .drive-download-box p {
+      font-size: 0.95rem;
+      color: var(--clr-text-muted);
+      max-width: 540px;
+      margin: 0 auto 20px;
+    }
+
+    .drive-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 26px;
+      border-radius: var(--radius-sm);
+      background: var(--clr-teal);
+      color: #fff !important;
+      font-family: var(--ff-display);
+      font-weight: 700;
+      font-size: 1rem;
+      text-decoration: none;
+      box-shadow: 0 4px 16px rgba(0, 125, 138, 0.3);
+      transition: transform 0.15s ease, background 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .drive-btn:hover {
+      background: var(--clr-water-bright, #00D4E8);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 212, 232, 0.4);
+    }
   </style>
 </head>
 
@@ -202,7 +252,15 @@
     <div class="container">
       <span class="section-label">For Press &amp; Media</span>
       <h1>Press Kit</h1>
-      <p>Everything you need to cover Sync - Sink. More assets coming soon.</p>
+      <p>Everything you need to cover Sync - Sink — logos, screenshots, trailers, and press materials.</p>
+      <div style="margin-top: 24px;">
+        <a href="https://drive.google.com/drive/folders/1a9iZHrVo5bsFyq1KjVPDoDN9CrxZ4u2q?usp=drive_link" target="_blank" rel="noopener" class="drive-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+          </svg>
+          Open Press Kit Folder (Google Drive)
+        </a>
+      </div>
     </div>
   </div>
 
@@ -244,6 +302,11 @@
         <tr>
           <td>Release Date</td>
           <td>To be announced</td>
+        </tr>
+        <tr>
+          <td>Press Kit Folder</td>
+          <td><a href="https://drive.google.com/drive/folders/1a9iZHrVo5bsFyq1KjVPDoDN9CrxZ4u2q?usp=drive_link" target="_blank" rel="noopener"
+              style="color:var(--clr-teal)">Google Drive Press Kit</a></td>
         </tr>
         <tr>
           <td>Steam Page</td>
@@ -350,12 +413,16 @@
         </div>
       </div>
 
-      <div class="coming-soon-box">
-        <div class="icon">📦</div>
-        <h3>Full press kit coming soon</h3>
-        <p>Screenshots, logos, trailers, and a downloadable asset pack will be added here ahead of launch. In the
-          meantime, please <a href="mailto:syrupygamescom@gmail.com" style="color:var(--clr-teal)">reach out
-            directly</a>.</p>
+      <div class="drive-download-box">
+        <div class="icon">📁</div>
+        <h3>Download Full Press Kit</h3>
+        <p>Access high-resolution screenshots, trailers, key art, and branding assets directly on Google Drive.</p>
+        <a href="https://drive.google.com/drive/folders/1a9iZHrVo5bsFyq1KjVPDoDN9CrxZ4u2q?usp=drive_link" target="_blank" rel="noopener" class="drive-btn">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+          </svg>
+          Open Google Drive Folder
+        </a>
       </div>
     </div>
   </section>

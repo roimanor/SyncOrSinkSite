@@ -615,6 +615,45 @@ ul {
 }
 
 /* Official Store Badges & CTAs */
+.btn-store-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 96px;
+  width: auto;
+  border-radius: 8px;
+  overflow: hidden;
+  text-decoration: none;
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.22s ease, filter 0.22s ease;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-store-badge:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.48);
+  filter: brightness(1.08);
+}
+
+.btn-store-badge img {
+  height: 100%;
+  width: auto;
+  aspect-ratio: 238.96 / 70.87;
+  display: block;
+  object-fit: contain;
+}
+
+#steam-cta-btn img,
+#steam-bottom-btn img {
+  transform: scale(1.2);
+}
+
+.btn-steam-about {
+  margin-top: 10px;
+}
+
 .btn-store {
   display: inline-flex;
   align-items: center;
@@ -1469,6 +1508,160 @@ ul {
 }
 
 /* ============================================================
+   DOWNLOAD SECTION
+   ============================================================ */
+#download {
+  padding: 100px 0 60px;
+  background: var(--clr-sky-pale);
+  position: relative;
+  overflow: hidden;
+}
+
+#download::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--clr-water), var(--clr-green), var(--clr-gold));
+}
+
+.download-subtitle {
+  color: var(--clr-text-muted);
+  font-size: 1.05rem;
+  margin-top: 12px;
+  line-height: 1.6;
+}
+
+.download-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.download-card {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 28px 28px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, var(--clr-water), var(--clr-water-dark));
+  color: #fff;
+  text-decoration: none;
+  border: 2px solid rgba(0, 212, 232, 0.3);
+  box-shadow: 0 6px 28px rgba(0, 184, 204, 0.25);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+  position: relative;
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.download-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.download-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(0, 184, 204, 0.4);
+  border-color: rgba(0, 212, 232, 0.6);
+}
+
+.download-card-secondary {
+  background: var(--clr-white);
+  color: var(--clr-text);
+  border: 2px solid var(--clr-border);
+  box-shadow: var(--shadow-sm);
+}
+
+.download-card-secondary::after {
+  background: none;
+}
+
+.download-card-secondary:hover {
+  border-color: rgba(91, 173, 78, 0.4);
+  box-shadow: var(--shadow-card);
+}
+
+.download-card-icon {
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.download-card-secondary .download-card-icon {
+  background: var(--clr-sky-pale);
+  color: var(--clr-text-muted);
+}
+
+.download-card-icon svg {
+  width: 24px;
+  height: 24px;
+}
+
+.download-card-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.download-card-title {
+  font-family: var(--ff-display);
+  font-size: 1.1rem;
+  font-weight: 800;
+  letter-spacing: 0.01em;
+}
+
+.download-card-sub {
+  font-size: 0.82rem;
+  opacity: 0.72;
+  font-weight: 600;
+}
+
+.download-card-secondary .download-card-sub {
+  color: var(--clr-text-muted);
+  opacity: 1;
+}
+
+.download-card-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  font-family: var(--ff-display);
+  font-size: 0.62rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  background: linear-gradient(135deg, var(--clr-gold), var(--clr-gold-dark));
+  color: #fff;
+  padding: 3px 10px;
+  border-radius: 20px;
+  box-shadow: 0 2px 8px rgba(244, 166, 35, 0.35);
+  z-index: 1;
+}
+
+.download-note {
+  text-align: center;
+  margin-top: 24px;
+  font-family: var(--ff-display);
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--clr-text-dim);
+  letter-spacing: 0.06em;
+}
+
+/* ============================================================
    CTA
    ============================================================ */
 #cta {
@@ -1782,6 +1975,11 @@ ul {
 
   .screenshots-grid {
     grid-template-columns: 1fr;
+  }
+
+  .download-grid {
+    grid-template-columns: 1fr;
+    max-width: 400px;
   }
 
   .screenshot-item.large {

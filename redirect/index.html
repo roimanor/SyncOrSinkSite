@@ -6,75 +6,43 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Opening Sync - Sink…</title>
   <meta name="robots" content="noindex" />
-  <link rel="icon" type="image/png" href="../assets/syrupygames.png" />
+  <link rel="icon" type="image/png" href="/assets/syrupygames.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800;900&family=Nunito:wght@400;500;600;700&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css?v=1.1.3" />
   <style>
-    :root {
-      --teal: #00d4ff;
-      --teal-glow: rgba(0, 212, 255, 0.4);
-      --orange: #ff6b35;
-      --orange-glow: rgba(255, 107, 53, 0.4);
-      --deep: #050d1a;
-      --dark: #0a1628;
-      --card-bg: rgba(14, 28, 48, 0.75);
-      --card-border: rgba(0, 212, 255, 0.2);
-      --muted: #8baac8;
-      --text: #e8f4ff;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
     body {
-      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
-      background:
-        radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0, 212, 255, 0.12) 0%, transparent 60%),
-        radial-gradient(ellipse 60% 50% at 80% 80%, rgba(255, 107, 53, 0.08) 0%, transparent 50%),
-        linear-gradient(180deg, var(--dark), var(--deep));
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
       text-align: center;
-      padding: 32px 20px;
-      color: var(--text);
+      background:
+        radial-gradient(ellipse 70% 50% at 50% 10%, rgba(137, 196, 225, 0.25) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 85%, rgba(91, 173, 78, 0.12) 0%, transparent 50%),
+        var(--clr-cream);
+      color: var(--clr-text);
+      font-family: var(--ff-body);
+      padding: 90px 20px 40px;
     }
 
-    .container {
-      max-width: 460px;
+    .redirect-card {
+      max-width: 480px;
       width: 100%;
-      margin: 0 auto;
+      background: var(--clr-white);
+      border: 2px solid var(--clr-border);
+      border-radius: var(--radius-lg);
+      padding: 40px 32px;
+      box-shadow: var(--shadow-card);
+      text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
-    }
-
-    .logo {
-      font-weight: 900;
-      font-size: 1.5rem;
-      letter-spacing: 0.06em;
-      margin-bottom: 32px;
-      text-decoration: none;
-      display: inline-block;
-    }
-
-    .logo .s {
-      color: var(--teal);
-    }
-
-    .logo .o {
-      color: var(--muted);
-      font-weight: 400;
-    }
-
-    .logo .k {
-      color: var(--orange);
+      margin: 0 auto;
     }
 
     /* Radar / Spinner launcher animation */
@@ -82,7 +50,7 @@
       position: relative;
       width: 68px;
       height: 68px;
-      margin: 0 auto 20px;
+      margin: 0 auto 16px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -92,9 +60,9 @@
       position: absolute;
       inset: 0;
       border-radius: 50%;
-      border: 3px solid rgba(0, 212, 255, 0.15);
-      border-top-color: var(--teal);
-      border-right-color: rgba(0, 212, 255, 0.5);
+      border: 3.5px solid var(--clr-sky-mid);
+      border-top-color: var(--clr-water);
+      border-right-color: var(--clr-water-bright);
       animation: spin 0.9s linear infinite;
     }
 
@@ -102,13 +70,13 @@
       position: absolute;
       inset: -6px;
       border-radius: 50%;
-      border: 2px solid var(--teal);
+      border: 2px solid var(--clr-water);
       opacity: 0.25;
       animation: pulse 2s ease-out infinite;
     }
 
     .launcher-icon {
-      font-size: 1.7rem;
+      font-size: 1.8rem;
       animation: gentle-bounce 2s ease-in-out infinite;
     }
 
@@ -143,32 +111,37 @@
     }
 
     h1 {
-      font-size: 1.6rem;
+      font-family: var(--ff-display);
+      font-size: 1.85rem;
       font-weight: 800;
+      color: var(--clr-text);
       letter-spacing: -0.01em;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
+      line-height: 1.2;
     }
 
     .status {
-      color: var(--muted);
+      font-family: var(--ff-body);
+      color: var(--clr-text-muted);
       font-size: 0.95rem;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       line-height: 1.5;
-      max-width: 360px;
+      max-width: 380px;
     }
 
     .address-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      background: rgba(0, 212, 255, 0.08);
-      border: 1px solid rgba(0, 212, 255, 0.25);
-      color: #9fe8ff;
-      padding: 6px 14px;
+      background: var(--clr-sky-pale);
+      border: 1.5px solid var(--clr-border-water);
+      color: var(--clr-water-dark);
+      padding: 5px 14px;
       border-radius: 20px;
-      font-size: 0.85rem;
-      font-weight: 600;
-      margin-bottom: 24px;
+      font-family: var(--ff-display);
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-bottom: 22px;
       letter-spacing: 0.02em;
     }
 
@@ -176,8 +149,8 @@
       width: 7px;
       height: 7px;
       border-radius: 50%;
-      background: #00ffaa;
-      box-shadow: 0 0 8px #00ffaa;
+      background: var(--clr-green);
+      box-shadow: 0 0 8px var(--clr-green);
       animation: blink 1.6s ease-in-out infinite;
     }
 
@@ -187,11 +160,12 @@
     }
 
     .options-heading {
+      font-family: var(--ff-display);
       font-size: 0.8rem;
       font-weight: 700;
       text-transform: uppercase;
-      letter-spacing: 0.08em;
-      color: var(--muted);
+      letter-spacing: 0.12em;
+      color: var(--clr-text-dim);
       margin-bottom: 14px;
       display: flex;
       align-items: center;
@@ -203,8 +177,8 @@
     .options-heading::after {
       content: "";
       flex: 1;
-      height: 1px;
-      background: rgba(255, 255, 255, 0.1);
+      height: 1.5px;
+      background: var(--clr-border);
     }
 
     .actions-grid {
@@ -212,7 +186,7 @@
       flex-direction: column;
       gap: 12px;
       width: 100%;
-      margin-bottom: 20px;
+      margin-bottom: 16px;
     }
 
     /* Action Cards */
@@ -220,50 +194,47 @@
       display: flex;
       align-items: center;
       gap: 16px;
-      padding: 16px 20px;
-      border-radius: 16px;
+      padding: 14px 18px;
+      border-radius: var(--radius-md);
       text-decoration: none;
       text-align: left;
-      transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
       position: relative;
-      overflow: hidden;
+      cursor: pointer;
     }
 
-    /* WebGL Play Button: Vibrant Teal Gradient */
+    /* WebGL Play Button: Vibrant Water Cyan Gradient */
     .action-webgl {
-      background: linear-gradient(135deg, rgba(0, 212, 255, 0.16), rgba(0, 153, 204, 0.26));
-      border: 1.5px solid rgba(0, 212, 255, 0.5);
+      background: linear-gradient(135deg, var(--clr-water), var(--clr-water-dark));
       color: #fff;
-      box-shadow: 0 4px 20px rgba(0, 212, 255, 0.16);
+      box-shadow: var(--shadow-water);
+      border: 2px solid transparent;
     }
 
     .action-webgl:hover {
       transform: translateY(-2px);
-      background: linear-gradient(135deg, rgba(0, 212, 255, 0.26), rgba(0, 153, 204, 0.38));
-      border-color: var(--teal);
-      box-shadow: 0 8px 30px rgba(0, 212, 255, 0.35);
+      box-shadow: 0 8px 32px rgba(0, 184, 204, 0.45);
     }
 
-    /* App Store Button: Sleek Dark Glass */
+    /* App Store Button: Warm Nature Cream Card */
     .action-store {
-      background: var(--card-bg);
-      border: 1.5px solid rgba(255, 255, 255, 0.14);
-      color: var(--text);
-      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.3);
-      backdrop-filter: blur(12px);
+      background: var(--clr-cream);
+      border: 2px solid var(--clr-border);
+      color: var(--clr-text);
+      box-shadow: var(--shadow-sm);
     }
 
     .action-store:hover {
       transform: translateY(-2px);
-      border-color: rgba(255, 255, 255, 0.35);
-      background: rgba(24, 44, 72, 0.85);
-      box-shadow: 0 8px 26px rgba(0, 0, 0, 0.45);
+      border-color: var(--clr-green);
+      background: #fff;
+      box-shadow: var(--shadow-card);
     }
 
     .card-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -271,20 +242,19 @@
     }
 
     .action-webgl .card-icon {
-      background: linear-gradient(135deg, var(--teal), #0088b3);
-      color: #04101e;
-      box-shadow: 0 4px 14px rgba(0, 212, 255, 0.4);
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
     }
 
     .action-store .card-icon {
-      background: rgba(255, 255, 255, 0.08);
-      color: #fff;
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(91, 173, 78, 0.12);
+      color: var(--clr-green-dark);
+      border: 1px solid var(--clr-border);
     }
 
     .card-icon svg {
-      width: 24px;
-      height: 24px;
+      width: 22px;
+      height: 22px;
       fill: currentColor;
     }
 
@@ -294,6 +264,7 @@
     }
 
     .card-title {
+      font-family: var(--ff-display);
       font-size: 1.05rem;
       font-weight: 700;
       line-height: 1.25;
@@ -302,49 +273,74 @@
       gap: 8px;
     }
 
+    .action-webgl .card-title {
+      color: #fff;
+    }
+
+    .action-store .card-title {
+      color: var(--clr-text);
+    }
+
     .card-tag {
+      font-family: var(--ff-display);
       font-size: 0.68rem;
       font-weight: 800;
       text-transform: uppercase;
       letter-spacing: 0.06em;
       padding: 2px 7px;
       border-radius: 6px;
-      background: var(--teal);
-      color: #04101e;
+      background: var(--clr-gold);
+      color: #fff;
     }
 
     .card-desc {
+      font-family: var(--ff-body);
       font-size: 0.82rem;
-      color: var(--muted);
-      margin-top: 3px;
+      margin-top: 2px;
+    }
+
+    .action-webgl .card-desc {
+      color: rgba(255, 255, 255, 0.85);
+    }
+
+    .action-store .card-desc {
+      color: var(--clr-text-muted);
     }
 
     .card-arrow {
       font-size: 1.2rem;
-      color: var(--muted);
-      transition: transform 0.2s, color 0.2s;
+      transition: transform 0.2s;
+    }
+
+    .action-webgl .card-arrow {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .action-store .card-arrow {
+      color: var(--clr-text-dim);
     }
 
     .action-card:hover .card-arrow {
       transform: translateX(3px);
-      color: var(--text);
     }
 
     /* Retry app launch footer link */
     .relaunch-link {
-      color: var(--muted);
+      font-family: var(--ff-body);
+      color: var(--clr-text-muted);
       font-size: 0.88rem;
+      font-weight: 600;
       text-decoration: none;
       display: inline-flex;
       align-items: center;
       gap: 6px;
       transition: color 0.2s;
-      margin-top: 6px;
+      margin-top: 8px;
       cursor: pointer;
     }
 
     .relaunch-link:hover {
-      color: var(--teal);
+      color: var(--clr-water-dark);
       text-decoration: underline;
     }
 
@@ -359,11 +355,23 @@
 </head>
 
 <body>
-  <div class="container">
-    <a href="/" class="logo" aria-label="Sync - Sink Home">
-      <span class="s">SYNC</span><span class="o"> - </span><span class="k">SINK</span>
-    </a>
+  <!-- Standard Site Navigation -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a class="nav-logo" href="/">
+        <img src="/assets/title2.png" alt="Sync - Sink" class="nav-logo-img" />
+      </a>
+      <div class="nav-links">
+        <a href="/play/">Play Demo</a>
+        <a href="/#about">About</a>
+        <a href="/#features">Features</a>
+        <a href="/#download">Download</a>
+        <a href="/presskit/index.html">Press Kit</a>
+      </div>
+    </div>
+  </nav>
 
+  <div class="redirect-card">
     <div class="launcher-anim">
       <div class="launcher-ring"></div>
       <div class="launcher-pulse"></div>
@@ -384,21 +392,7 @@
     <div class="options-heading">Choose an option</div>
 
     <div class="actions-grid">
-      <!-- 1. Device Relevant App Store Link -->
-      <a href="https://play.google.com/store/apps/details?id=com.SyrupyGames.SyncOrSink&hl=en" id="dest" class="action-card action-store" target="_blank" rel="noopener">
-        <div class="card-icon" id="store-icon">
-          <svg viewBox="0 0 24 24">
-            <path d="M3.609 1.814L13.793 12 3.61 22.186a1.5 1.5 0 0 1-.61-.958V2.772c0-.363.228-.718.61-.958zm11.242 11.244L17.7 15.91l-11.83 6.83 8.98-9.682zm0-2.116L5.87 1.26 17.7 8.09l-2.85 2.852zm1.488 1.058l3.447-1.99c.773-.446.773-1.173 0-1.62l-3.447-1.99-1.488 1.488 1.488 4.112z"/>
-          </svg>
-        </div>
-        <div class="card-details">
-          <div class="card-title" id="store-title">Get it on Google Play</div>
-          <div class="card-desc" id="store-desc">Download the mobile controller app</div>
-        </div>
-        <div class="card-arrow">→</div>
-      </a>
-
-      <!-- 2. Play on WebGL Link -->
+      <!-- 1. Play on WebGL Link -->
       <a href="https://syrupygames.com/play/" id="webgl-link" class="action-card action-webgl">
         <div class="card-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
@@ -418,6 +412,20 @@
         </div>
         <div class="card-arrow">→</div>
       </a>
+
+      <!-- 2. Device Relevant App Store Link -->
+      <a href="https://play.google.com/store/apps/details?id=com.SyrupyGames.SyncOrSink&hl=en" id="dest" class="action-card action-store" target="_blank" rel="noopener">
+        <div class="card-icon" id="store-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M3.609 1.814L13.793 12 3.61 22.186a1.5 1.5 0 0 1-.61-.958V2.772c0-.363.228-.718.61-.958zm11.242 11.244L17.7 15.91l-11.83 6.83 8.98-9.682zm0-2.116L5.87 1.26 17.7 8.09l-2.85 2.852zm1.488 1.058l3.447-1.99c.773-.446.773-1.173 0-1.62l-3.447-1.99-1.488 1.488 1.488 4.112z"/>
+          </svg>
+        </div>
+        <div class="card-details">
+          <div class="card-title" id="store-title">Get it on Google Play</div>
+          <div class="card-desc" id="store-desc">Download the mobile controller app</div>
+        </div>
+        <div class="card-arrow">→</div>
+      </a>
     </div>
 
     <!-- Retry opening app -->
@@ -430,7 +438,7 @@
   </div>
 
   <script type="text/javascript">
-    (function () {
+    window.onload = function () {
       var userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
       // Extract the address from query string (?address), path (/redirect/address), or hash (#address)
@@ -449,8 +457,6 @@
 
       // Target Links
       var appScheme = "syncorsink://" + address;
-      // Android Intent URI for Chrome on Android (avoids ERR_UNKNOWN_URL_SCHEME / blank black screen)
-      var androidIntent = "intent://" + address + "#Intent;scheme=syncorsink;package=com.SyrupyGames.SyncOrSink;end;";
       var playStoreURL = "https://play.google.com/store/apps/details?id=com.SyrupyGames.SyncOrSink&hl=en";
       var appStoreURL = "https://apps.apple.com/app/sync-or-sink/id6740000000"; // iOS App Store link
       var steamURL = "https://store.steampowered.com/app/4677270/Sync_or_Sink/";
@@ -499,7 +505,7 @@
       // Setup manual relaunch link
       var relaunchBtn = document.getElementById('relaunch-app');
       if (relaunchBtn) {
-        relaunchBtn.href = isAndroid ? androidIntent : appScheme;
+        relaunchBtn.href = appScheme;
       }
 
       // Setup room badge
@@ -514,19 +520,11 @@
         }
       }
 
-      // Safely attempt to auto-launch the app after UI has completely rendered
+      // Launch app automatically on mobile devices (like the original working code)
       if (isIOS || isAndroid) {
-        setTimeout(function () {
-          try {
-            if (isAndroid) {
-              window.location.href = androidIntent;
-            } else if (isIOS) {
-              window.location.href = appScheme;
-            }
-          } catch (e) {}
-        }, 600);
+        window.location.href = appScheme;
       }
-    })();
+    };
   </script>
 </body>
 

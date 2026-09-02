@@ -191,6 +191,10 @@
       productVersion: "1.1.8",
       showBanner: unityShowBanner,
       matchWebGLToCanvasSize: true,
+      errorHandler: function (err, url, line) {
+        console.warn("Handled Unity WebGL exception:", err);
+        return true; // Suppress fatal error popup
+      },
     };
 
     loadingBar.style.display = "flex";
@@ -205,18 +209,29 @@
         loadingBar.style.display = "none";
         fullscreenBtn.style.display = "flex";
       }).catch((message) => {
-        alert(message);
+        console.warn("Unity init message:", message);
       });
     };
     document.body.appendChild(script);
 
     fullscreenBtn.onclick = function () {
-      if (myUnityInstance) {
-        myUnityInstance.SetFullscreen(1);
+      if (myUnityInstance && typeof myUnityInstance.SetFullscreen === 'function') {
+        try {
+          myUnityInstance.SetFullscreen(1);
+        } catch (e) {}
       } else if (!document.fullscreenElement) {
-        document.documentElement.requestFullscreen().catch(function (e) { });
+        var el = document.documentElement;
+        var rfs = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+        if (rfs) {
+          var p = rfs.call(el);
+          if (p && p.catch) p.catch(function () {});
+        }
       } else {
-        document.exitFullscreen().catch(function (e) { });
+        var efs = document.exitFullscreen || document.webkitExitFullscreen || document.mozCancelFullScreen || document.msExitFullscreen;
+        if (efs) {
+          var p2 = efs.call(document);
+          if (p2 && p2.catch) p2.catch(function () {});
+        }
       }
     };
 
@@ -224,11 +239,18 @@
     var wakeLock = null;
     async function requestWakeLock() {
       try {
-        if ('wakeLock' in navigator && navigator.wakeLock) {
-          wakeLock = await navigator.wakeLock.request('screen');
-          wakeLock.addEventListener('release', function () {
-            wakeLock = null;
-          });
+        if ('wakeLock' in navigator && navigator.wakeLock && navigator.wakeLock.request) {
+          var p = navigator.wakeLock.request('screen');
+          if (p && p.then) {
+            p.then(function (lock) {
+              wakeLock = lock;
+              if (wakeLock && wakeLock.addEventListener) {
+                wakeLock.addEventListener('release', function () {
+                  wakeLock = null;
+                });
+              }
+            }).catch(function () {});
+          }
         }
       } catch (err) {}
     }
@@ -239,9 +261,6 @@
         requestWakeLock();
       }
     });
-    window.addEventListener('click', requestWakeLock);
-    window.addEventListener('touchstart', requestWakeLock);
-    window.addEventListener('pointerdown', requestWakeLock);
 
     // Force Vertical: when switched to horizontal, keep displaying vertical
     function enforceOrientation() {
@@ -275,34 +294,33 @@
         canvas.style.height = "100vw";
       }
 
-      // Lock device orientation to portrait if supported
-      try {
-        if (screen.orientation && screen.orientation.lock) {
-          screen.orientation.lock('portrait').catch(function () {});
-        } else if (screen.lockOrientation) {
-          screen.lockOrientation('portrait');
-        }
-      } catch (e) {}
+      // Lock device orientation to portrait ONLY when in fullscreen
+      if (document.fullscreenElement && screen.orientation && screen.orientation.lock) {
+        try {
+          var lp = screen.orientation.lock('portrait');
+          if (lp && lp.catch) lp.catch(function () {});
+        } catch (e) {}
+      }
     }
 
     enforceOrientation();
     window.addEventListener("resize", enforceOrientation);
     window.addEventListener("orientationchange", enforceOrientation);
     document.addEventListener("fullscreenchange", enforceOrientation);
-    window.addEventListener("click", enforceOrientation);
-    window.addEventListener("touchstart", enforceOrientation);
 
     // Auto-enter F11 hardware fullscreen on first user touch/click for Android
     var isAndroid = /Android/i.test(navigator.userAgent);
     function triggerAndroidFullscreen() {
+      requestWakeLock();
       if (isAndroid && !document.fullscreenElement) {
-        if (myUnityInstance) {
-          myUnityInstance.SetFullscreen(1);
-        } else {
+        try {
           var el = document.documentElement;
           var rfs = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
-          if (rfs) rfs.call(el).catch(function () {});
-        }
+          if (rfs) {
+            var p = rfs.call(el);
+            if (p && p.catch) p.catch(function () {});
+          }
+        } catch (e) {}
       }
     }
     window.addEventListener("click", triggerAndroidFullscreen, { once: true });

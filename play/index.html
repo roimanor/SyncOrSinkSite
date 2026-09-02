@@ -9,6 +9,23 @@
   <title>Sync - Sink</title>
   <link rel="icon" type="image/png" href="/assets/syrupygames.png">
   <script>
+    // Intercept and shield Unity from non-fatal browser API permission rejections
+    window.addEventListener('unhandledrejection', function (e) {
+      var msg = (e && e.reason) ? String(e.reason.message || e.reason) : '';
+      if (msg.indexOf('Permissions check failed') !== -1 || msg.indexOf('fullscreen') !== -1 || msg.indexOf('wake') !== -1 || msg.indexOf('SocketException') !== -1) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
+    }, true);
+
+    window.addEventListener('error', function (e) {
+      var msg = (e && e.message) ? String(e.message) : '';
+      if (msg.indexOf('Permissions check failed') !== -1 || msg.indexOf('fullscreen') !== -1 || msg.indexOf('wake') !== -1 || msg.indexOf('SocketException') !== -1) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
+    }, true);
+
     (function () {
       var redirectUrl = sessionStorage.getItem('spa_redirect');
       if (redirectUrl) {
@@ -294,13 +311,6 @@
         canvas.style.height = "100vw";
       }
 
-      // Lock device orientation to portrait ONLY when in fullscreen
-      if (document.fullscreenElement && screen.orientation && screen.orientation.lock) {
-        try {
-          var lp = screen.orientation.lock('portrait');
-          if (lp && lp.catch) lp.catch(function () {});
-        } catch (e) {}
-      }
     }
 
     enforceOrientation();
@@ -315,7 +325,7 @@
       if (isAndroid && !document.fullscreenElement) {
         try {
           var el = document.documentElement;
-          var rfs = el.requestFullscreen || el.webkitRequestFullscreen || el.mozRequestFullScreen || el.msRequestFullscreen;
+          var rfs = el.requestFullscreen || el.webkitRequestFullscreen;
           if (rfs) {
             var p = rfs.call(el);
             if (p && p.catch) p.catch(function () {});
@@ -324,8 +334,6 @@
       }
     }
     window.addEventListener("click", triggerAndroidFullscreen, { once: true });
-    window.addEventListener("touchstart", triggerAndroidFullscreen, { once: true });
-    window.addEventListener("pointerdown", triggerAndroidFullscreen, { once: true });
   </script>
 </body>
 

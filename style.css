@@ -2039,9 +2039,72 @@ ul {
   .hero-bottom-content {
     margin-top: 0;
     flex: initial;
+    width: 100%;
+    max-width: 480px;
   }
 
+  .hero-actions,
+  .cta-actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 12px 16px;
+    width: 100%;
+    max-width: 380px;
+    margin: 12px auto 10px;
+  }
 
+  #playstore-cta-btn,
+  #playstore-bottom-btn {
+    order: 1;
+  }
+
+  #appstore-cta-btn,
+  #appstore-bottom-btn {
+    order: 2;
+  }
+
+  #steam-cta-btn,
+  #steam-bottom-btn {
+    order: 3;
+  }
+
+  .btn-store-badge {
+    height: 48px;
+    flex: 0 0 auto;
+  }
+
+  .hero-badge {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 4px 10px;
+    font-size: 0.72rem;
+    margin-top: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-actions,
+  .cta-actions {
+    gap: 10px 12px;
+    max-width: 320px;
+  }
+
+  .btn-store-badge {
+    height: 42px;
+  }
+
+  .hero-tagline {
+    font-size: 1.25rem;
+    margin-bottom: 6px;
+  }
+
+  .hero-sub {
+    font-size: 0.95rem;
+    margin-bottom: 14px;
+    line-height: 1.5;
+  }
 }
 
 @media (max-width: 600px) {

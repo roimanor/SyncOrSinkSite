@@ -4,4 +4,3 @@
 # No Jekyll processing needed — static site
 exclude:
   - README.md
-  - "*.json"

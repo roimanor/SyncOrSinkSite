@@ -4,34 +4,37 @@
 <head>
   <script type="text/javascript">
     (function () {
-      var userAgent = navigator.userAgent || navigator.vendor || window.opera;
-      var rawSearch = window.location.search.replace(/^\?/, '');
-      var rawPath = window.location.pathname.replace(/^.*\/redirect\/?/, '').replace(/^\/+/, '');
-      var rawHash = window.location.hash.replace(/^#/, '');
+      var pathname = window.location.pathname;
 
-      var address = rawSearch || rawPath || rawHash || '';
-      var appScheme = "syncorsink://" + address;
-      var playStoreURL = "https://play.google.com/store/apps/details?id=com.SyrupyGames.SyncOrSink&hl=en";
+      // Forward /redirect/... to /redirect/?address so redirect/index.html handles it
+      if (pathname.indexOf('/redirect') !== -1) {
+        var rawSearch = window.location.search.replace(/^\?/, '');
+        var rawPath = pathname.replace(/^.*\/redirect\/?/, '').replace(/^\/+/, '');
+        if (rawPath === 'index.html' || rawPath === 'index.htm') {
+          rawPath = '';
+        }
+        var rawHash = window.location.hash.replace(/^#/, '');
+        var params = new URLSearchParams(window.location.search);
+        var queryAddress = params.get('address') || params.get('code') || params.get('room') || params.get('ip');
+        var address = queryAddress || (rawSearch.indexOf('=') === -1 ? rawSearch : '') || rawPath || rawHash || '';
+        address = address.trim();
 
-      if (window.location.pathname.indexOf('/redirect') !== -1) {
-        if (/iPad|iPhone|iPod/.test(userAgent) && !window.MSStream) {
-          window.location.href = appScheme;
-          setTimeout(function () { window.location.href = playStoreURL; }, 2500);
-        }
-        else if (/android/i.test(userAgent)) {
-          window.location.href = appScheme;
-          setTimeout(function () { window.location.href = playStoreURL; }, 2500);
-        }
-        else {
-          window.location.href = "https://store.steampowered.com/app/4677270/Sync_or_Sink/";
-        }
+        window.location.replace('/redirect/?' + address);
+        return;
+      }
+
+      // Handle /play/... routes directly on GitHub Pages by booting the WebGL player
+      if (pathname.indexOf('/play') !== -1) {
+        document.documentElement.classList.add('is-play-mode');
       }
     })();
   </script>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport"
+    content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes" />
   <title>Page Not Found – Sync - Sink</title>
   <meta name="robots" content="noindex" />
+  <link rel="icon" type="image/png" href="/assets/syrupygames.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
@@ -50,6 +53,15 @@
         radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0, 212, 255, 0.1) 0%, transparent 60%),
         radial-gradient(ellipse 60% 50% at 80% 80%, rgba(255, 107, 53, 0.08) 0%, transparent 50%),
         linear-gradient(180deg, var(--clr-dark, #0a1628) 0%, var(--clr-deep, #050d1a) 100%);
+    }
+
+    #error-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      width: 100%;
     }
 
     .err-code {
@@ -160,28 +172,181 @@
     .lk {
       color: #ff6b35;
     }
+
+    /* Unity WebGL Player Styles */
+    html.is-play-mode,
+    html.is-play-mode body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden !important;
+      background: #231F20 !important;
+      padding: 0 !important;
+      margin: 0 !important;
+    }
+
+    html.is-play-mode #error-container {
+      display: none !important;
+    }
+
+    html.is-play-mode #unity-container {
+      display: block !important;
+    }
+
+    #unity-container {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      left: 0;
+      top: 0;
+      display: none;
+    }
+
+    #unity-canvas {
+      width: 100%;
+      height: 100%;
+      background: #231F20;
+      display: block;
+      outline: none;
+    }
+
+    #unity-loading-bar {
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 10;
+    }
+
+    #unity-logo {
+      width: 154px;
+      height: 130px;
+      background: url('/assets/webglBuild/TemplateData/unity-logo-dark.png') no-repeat center;
+      background-size: contain;
+    }
+
+    #unity-progress-bar-empty {
+      width: 141px;
+      height: 18px;
+      margin-top: 10px;
+      background: url('/assets/webglBuild/TemplateData/progress-bar-empty-dark.png') no-repeat center;
+      position: relative;
+    }
+
+    #unity-progress-bar-full {
+      width: 0%;
+      height: 100%;
+      background: url('/assets/webglBuild/TemplateData/progress-bar-full-dark.png') no-repeat left center;
+    }
+
+    #unity-warning {
+      position: absolute;
+      left: 50%;
+      top: 5%;
+      transform: translate(-50%);
+      background: white;
+      padding: 10px;
+      display: none;
+      z-index: 20;
+    }
   </style>
 </head>
 
 <body>
-  <div class="logo-bar">
-    <a href="/">
-      <span class="ls">SYNC</span><span class="lo"> - </span><span class="lk">SINK</span>
-    </a>
+  <!-- Standard 404 Container -->
+  <div id="error-container">
+    <div class="logo-bar">
+      <a href="/">
+        <span class="ls">SYNC</span><span class="lo"> - </span><span class="lk">SINK</span>
+      </a>
+    </div>
+
+    <div class="err-code">404</div>
+    <h1 class="err-title">You sank.</h1>
+    <p class="err-sub">This page drifted off course — or maybe it never existed. Let's get you back to shore.</p>
+
+    <div class="err-actions">
+      <a href="/" class="btn-home">
+        ← Back to Home
+      </a>
+      <a href="https://store.steampowered.com/app/4677270/Sync_or_Sink/" target="_blank" rel="noopener" class="btn-steam">
+        View on Steam
+      </a>
+    </div>
   </div>
 
-  <div class="err-code">404</div>
-  <h1 class="err-title">You sank.</h1>
-  <p class="err-sub">This page drifted off course — or maybe it never existed. Let's get you back to shore.</p>
-
-  <div class="err-actions">
-    <a href="/" class="btn-home">
-      ← Back to Home
-    </a>
-    <a href="https://store.steampowered.com/app/4677270/Sync_or_Sink/" target="_blank" rel="noopener" class="btn-steam">
-      View on Steam
-    </a>
+  <!-- Unity WebGL Player Container (Activated for /play/... routes) -->
+  <div id="unity-container">
+    <canvas id="unity-canvas" tabindex="-1"></canvas>
+    <div id="unity-loading-bar">
+      <div id="unity-logo"></div>
+      <div id="unity-progress-bar-empty">
+        <div id="unity-progress-bar-full"></div>
+      </div>
+    </div>
+    <div id="unity-warning"></div>
   </div>
+
+  <script>
+    if (window.location.pathname.indexOf('/play') !== -1) {
+      document.title = "Sync - Sink";
+
+      var canvas = document.querySelector("#unity-canvas");
+      var loadingBar = document.querySelector("#unity-loading-bar");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      var warningBanner = document.querySelector("#unity-warning");
+
+      function unityShowBanner(msg, type) {
+        function updateBannerVisibility() {
+          warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
+        }
+        var div = document.createElement('div');
+        div.innerHTML = msg;
+        warningBanner.appendChild(div);
+        if (type == 'error') div.style = 'background: red; color: white; padding: 10px;';
+        else {
+          if (type == 'warning') div.style = 'background: yellow; color: black; padding: 10px;';
+          setTimeout(function () {
+            warningBanner.removeChild(div);
+            updateBannerVisibility();
+          }, 5000);
+        }
+        updateBannerVisibility();
+      }
+
+      var buildUrl = "/assets/webglBuild/Build";
+      var loaderUrl = buildUrl + "/webglBuild.loader.js";
+      var config = {
+        arguments: [],
+        dataUrl: buildUrl + "/webglBuild.data.unityweb",
+        frameworkUrl: buildUrl + "/webglBuild.framework.js.unityweb",
+        codeUrl: buildUrl + "/webglBuild.wasm.unityweb",
+        streamingAssetsUrl: "/assets/webglBuild/StreamingAssets",
+        companyName: "SyrupyGames",
+        productName: "Sync - Sink",
+        productVersion: "1.1.8",
+        showBanner: unityShowBanner,
+      };
+
+      loadingBar.style.display = "flex";
+
+      var script = document.createElement("script");
+      script.src = loaderUrl;
+      script.onload = function () {
+        createUnityInstance(canvas, config, function (progress) {
+          progressBarFull.style.width = (100 * progress) + "%";
+        }).then(function (unityInstance) {
+          loadingBar.style.display = "none";
+        }).catch(function (message) {
+          alert(message);
+        });
+      };
+      document.body.appendChild(script);
+    }
+  </script>
 </body>
 
 </html>

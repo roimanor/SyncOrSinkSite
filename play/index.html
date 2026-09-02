@@ -7,7 +7,18 @@
   <meta name="viewport"
     content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes">
   <title>Sync - Sink</title>
-  <link rel="icon" type="image/png" href="../assets/syrupygames.png">
+  <link rel="icon" type="image/png" href="/assets/syrupygames.png">
+  <script>
+    (function () {
+      var redirectUrl = sessionStorage.getItem('spa_redirect');
+      if (redirectUrl) {
+        sessionStorage.removeItem('spa_redirect');
+        try {
+          window.history.replaceState(null, null, redirectUrl);
+        } catch (e) {}
+      }
+    })();
+  </script>
   <style>
     * {
       box-sizing: border-box;
@@ -54,7 +65,7 @@
     #unity-logo {
       width: 154px;
       height: 130px;
-      background: url('../assets/webglBuild/TemplateData/unity-logo-dark.png') no-repeat center;
+      background: url('/assets/webglBuild/TemplateData/unity-logo-dark.png') no-repeat center;
       background-size: contain;
     }
 
@@ -62,14 +73,14 @@
       width: 141px;
       height: 18px;
       margin-top: 10px;
-      background: url('../assets/webglBuild/TemplateData/progress-bar-empty-dark.png') no-repeat center;
+      background: url('/assets/webglBuild/TemplateData/progress-bar-empty-dark.png') no-repeat center;
       position: relative;
     }
 
     #unity-progress-bar-full {
       width: 0%;
       height: 100%;
-      background: url('../assets/webglBuild/TemplateData/progress-bar-full-dark.png') no-repeat left center;
+      background: url('/assets/webglBuild/TemplateData/progress-bar-full-dark.png') no-repeat left center;
     }
 
     #unity-warning {
@@ -121,14 +132,14 @@
       updateBannerVisibility();
     }
 
-    var buildUrl = "../assets/webglBuild/Build";
+    var buildUrl = "/assets/webglBuild/Build";
     var loaderUrl = buildUrl + "/webglBuild.loader.js";
     var config = {
       arguments: [],
       dataUrl: buildUrl + "/webglBuild.data.unityweb",
       frameworkUrl: buildUrl + "/webglBuild.framework.js.unityweb",
       codeUrl: buildUrl + "/webglBuild.wasm.unityweb",
-      streamingAssetsUrl: "../assets/webglBuild/StreamingAssets",
+      streamingAssetsUrl: "/assets/webglBuild/StreamingAssets",
       companyName: "SyrupyGames",
       productName: "Sync - Sink",
       productVersion: "1.1.8",

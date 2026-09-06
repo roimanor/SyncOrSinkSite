@@ -227,47 +227,6 @@
       }
     });
 
-    // Lock orientation to portrait
-    // Try the Screen Orientation API first
-    try {
-      if (screen.orientation && screen.orientation.lock) {
-        screen.orientation.lock('portrait').catch(function () {});
-      }
-    } catch (e) {}
-
-    // CSS counter-rotation fallback: keep content in portrait when device is landscape
-    function enforcePortrait() {
-      var isLandscape = window.innerWidth > window.innerHeight;
-      var container = document.getElementById('unity-container');
-
-      if (!isLandscape) {
-        container.style.width = '100vw';
-        container.style.height = '100vh';
-        container.style.left = '0';
-        container.style.top = '0';
-        container.style.transform = 'none';
-        canvas.style.width = '100vw';
-        canvas.style.height = '100vh';
-      } else {
-        var angle = (screen.orientation && screen.orientation.angle !== undefined)
-          ? screen.orientation.angle
-          : (window.orientation !== undefined ? window.orientation : 90);
-        var rot = (angle === 270 || angle === -90) ? 90 : -90;
-
-        container.style.width = '100vh';
-        container.style.height = '100vw';
-        container.style.left = '50%';
-        container.style.top = '50%';
-        container.style.transform = 'translate(-50%, -50%) rotate(' + rot + 'deg)';
-        container.style.transformOrigin = 'center center';
-        canvas.style.width = '100vh';
-        canvas.style.height = '100vw';
-      }
-    }
-
-    enforcePortrait();
-    window.addEventListener('resize', enforcePortrait);
-    window.addEventListener('orientationchange', enforcePortrait);
   </script>
 </body>
 

@@ -1,45 +1,256 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity Web Player | Sync - Sink</title>
-  </head>
-  <body style="text-align: center; padding: 0; border: 0; margin: 0;">
-    <canvas id="unity-canvas" width=600 height=960 tabindex="-1" style="width: 600px; height: 960px; background: #231F20"></canvas>
-    <script src="Build/webglBuild.loader.js"></script>
-    <script>
-      if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
-        // Mobile device style: fill the whole browser client area with the game canvas:
-        var meta = document.createElement('meta');
-        meta.name = 'viewport';
-        meta.content = 'width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes';
-        document.getElementsByTagName('head')[0].appendChild(meta);
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <title>Sync - Sink</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
-        var canvas = document.querySelector("#unity-canvas");
-        canvas.style.width = "100%";
-        canvas.style.height = "100%";
-        canvas.style.position = "fixed";
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        document.body.style.textAlign = "left";
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #0a0e17;
+      font-family: 'Inter', sans-serif;
+    }
 
-      }
+    #unity-container {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #0a0e17;
+    }
 
-      createUnityInstance(document.querySelector("#unity-canvas"), {
-        arguments: [],
-        dataUrl: "Build/webglBuild.data.unityweb",
-        frameworkUrl: "Build/webglBuild.framework.js.unityweb",
-        codeUrl: "Build/webglBuild.wasm.unityweb",
-        streamingAssetsUrl: "StreamingAssets",
-        companyName: "SyrupyGames",
-        productName: "Sync - Sink",
-        productVersion: "1.1.8",
-        // matchWebGLToCanvasSize: false, // Uncomment this to separately control WebGL canvas render size and DOM element size.
-        // devicePixelRatio: 1, // Uncomment this to override low DPI rendering on high DPI displays.
-      }).then((unityInstance) => {
-      }).catch((message) => {
-        alert(message);
+    #unity-canvas {
+      width: 100%;
+      height: 100%;
+      background: #0a0e17;
+    }
+
+    /* ─── Loader Overlay ─── */
+    #loader-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #0a0e17;
+      transition: opacity 0.6s ease, visibility 0.6s ease;
+    }
+
+    #loader-overlay.hidden {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    /* Background subtle gradient animation */
+    #loader-overlay::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(56, 142, 196, 0.08) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 30%, rgba(45, 180, 140, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(100, 80, 200, 0.05) 0%, transparent 50%);
+      animation: bgPulse 6s ease-in-out infinite;
+    }
+
+    @keyframes bgPulse {
+      0%, 100% { opacity: 0.6; }
+      50% { opacity: 1; }
+    }
+
+    /* Logo */
+    #loader-logo {
+      position: relative;
+      width: min(280px, 70vw);
+      margin-bottom: 48px;
+      animation: logoFloat 3s ease-in-out infinite;
+      filter: drop-shadow(0 8px 32px rgba(56, 142, 196, 0.25));
+    }
+
+    #loader-logo img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    @keyframes logoFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    /* Progress container */
+    #loader-progress-wrap {
+      position: relative;
+      width: min(320px, 75vw);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+    }
+
+    /* Track */
+    #loader-track {
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: rgba(255, 255, 255, 0.08);
+      overflow: hidden;
+      backdrop-filter: blur(4px);
+    }
+
+    /* Bar */
+    #loader-bar {
+      height: 100%;
+      width: 0%;
+      border-radius: 3px;
+      background: linear-gradient(90deg, #388ec4, #2db48c);
+      box-shadow: 0 0 16px rgba(45, 180, 140, 0.4);
+      transition: width 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      position: relative;
+    }
+
+    #loader-bar::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+      animation: shimmer 1.8s ease-in-out infinite;
+    }
+
+    @keyframes shimmer {
+      0% { transform: translateX(-100%); }
+      100% { transform: translateX(100%); }
+    }
+
+    /* Percentage text */
+    #loader-percent {
+      font-size: 13px;
+      font-weight: 600;
+      color: rgba(255, 255, 255, 0.5);
+      letter-spacing: 2px;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Error state */
+    #loader-error {
+      display: none;
+      position: relative;
+      color: #ff6b6b;
+      font-size: 14px;
+      font-weight: 600;
+      text-align: center;
+      padding: 16px 24px;
+      border-radius: 12px;
+      background: rgba(255, 107, 107, 0.08);
+      border: 1px solid rgba(255, 107, 107, 0.15);
+      max-width: min(400px, 85vw);
+      margin-top: 24px;
+    }
+
+    /* Mobile warning */
+    #loader-warning {
+      display: none;
+      position: relative;
+      color: rgba(255, 255, 255, 0.4);
+      font-size: 12px;
+      text-align: center;
+      margin-top: 32px;
+      max-width: min(280px, 70vw);
+      line-height: 1.5;
+    }
+  </style>
+</head>
+<body>
+  <div id="unity-container">
+    <canvas id="unity-canvas" tabindex="-1"></canvas>
+  </div>
+
+  <div id="loader-overlay">
+    <div id="loader-logo">
+      <img src="logo.png" alt="Sync - Sink">
+    </div>
+    <div id="loader-progress-wrap">
+      <div id="loader-track">
+        <div id="loader-bar"></div>
+      </div>
+      <div id="loader-percent">0%</div>
+    </div>
+    <div id="loader-error"></div>
+    <div id="loader-warning">Best experienced on a mobile device in portrait orientation</div>
+  </div>
+
+  <script>
+    var loaderBar = document.getElementById('loader-bar');
+    var loaderPercent = document.getElementById('loader-percent');
+    var loaderOverlay = document.getElementById('loader-overlay');
+    var loaderError = document.getElementById('loader-error');
+    var loaderWarning = document.getElementById('loader-warning');
+    var canvas = document.getElementById('unity-canvas');
+
+    if (!/Mobi|Android|iPhone|iPad/i.test(navigator.userAgent)) {
+      loaderWarning.style.display = 'block';
+    }
+
+    function setProgress(progress) {
+      var pct = Math.round(progress * 100);
+      loaderBar.style.width = pct + '%';
+      loaderPercent.textContent = pct + '%';
+    }
+
+    function hideLoader() {
+      loaderOverlay.classList.add('hidden');
+      setTimeout(function() {
+        loaderOverlay.style.display = 'none';
+      }, 700);
+    }
+
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+
+    var buildUrl = "Build";
+    var loaderUrl = buildUrl + "/webglBuild.loader.js";
+    var config = {
+      dataUrl: buildUrl + "/webglBuild.data.unityweb",
+      frameworkUrl: buildUrl + "/webglBuild.framework.js.unityweb",
+      codeUrl: buildUrl + "/webglBuild.wasm.unityweb",
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: "SyrupyGames",
+      productName: "Sync - Sink",
+      productVersion: "1.1.8",
+    };
+
+    var script = document.createElement("script");
+    script.src = loaderUrl;
+    script.onload = function() {
+      createUnityInstance(canvas, config, function(progress) {
+        setProgress(progress);
+      }).then(function(instance) {
+        setProgress(1);
+        setTimeout(hideLoader, 400);
+      }).catch(function(message) {
+        loaderError.style.display = 'block';
+        loaderError.textContent = 'Failed to load: ' + message;
+        console.error(message);
       });
-    </script>
-  </body>
+    };
+    document.body.appendChild(script);
+  </script>
+</body>
 </html>

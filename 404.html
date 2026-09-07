@@ -40,9 +40,12 @@
         return;
       }
 
-      // Handle /play/... routes directly on GitHub Pages by booting the WebGL player
+      // Handle /play/... routes by redirecting to /play/ (SPA-style)
+      // The play/index.html page restores the URL from sessionStorage
       if (pathname.indexOf('/play') !== -1) {
-        document.documentElement.classList.add('is-play-mode');
+        sessionStorage.setItem('spa_redirect', window.location.href);
+        window.location.replace('/play/');
+        return;
       }
     })();
   </script>

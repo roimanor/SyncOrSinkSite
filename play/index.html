@@ -33,7 +33,8 @@
       if (redirectUrl) {
         sessionStorage.removeItem('spa_redirect');
         try {
-          window.history.replaceState(null, null, redirectUrl);
+          var url = new URL(redirectUrl);
+          window.history.replaceState(null, null, url.pathname + url.search + url.hash);
         } catch (e) { }
       }
     })();

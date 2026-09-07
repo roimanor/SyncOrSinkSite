@@ -39,7 +39,7 @@
       background: #0a0e17;
     }
 
-    /* ─── Loader Overlay ─── */
+    /* ─── Loader Overlay (Mobile Portrait) ─── */
     #loader-overlay {
       position: fixed;
       inset: 0;
@@ -47,7 +47,8 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: flex-start;
+      padding-top: 25vh;
       background: #0a0e17;
       transition: opacity 0.6s ease, visibility 0.6s ease;
     }
@@ -58,15 +59,14 @@
       pointer-events: none;
     }
 
-    /* Background subtle gradient animation */
     #loader-overlay::before {
       content: '';
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(ellipse at 20% 50%, rgba(56, 142, 196, 0.08) 0%, transparent 60%),
-        radial-gradient(ellipse at 80% 30%, rgba(45, 180, 140, 0.06) 0%, transparent 50%),
-        radial-gradient(ellipse at 50% 80%, rgba(100, 80, 200, 0.05) 0%, transparent 50%);
+        radial-gradient(ellipse at 50% 20%, rgba(56, 142, 196, 0.10) 0%, transparent 60%),
+        radial-gradient(ellipse at 30% 70%, rgba(45, 180, 140, 0.07) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 90%, rgba(100, 80, 200, 0.05) 0%, transparent 50%);
       animation: bgPulse 6s ease-in-out infinite;
     }
 
@@ -75,11 +75,12 @@
       50% { opacity: 1; }
     }
 
-    /* Logo */
+    /* Logo — sized for portrait width */
     #loader-logo {
       position: relative;
-      width: min(280px, 70vw);
-      margin-bottom: 48px;
+      width: 85vw;
+      max-width: 360px;
+      margin-bottom: 40px;
       animation: logoFloat 3s ease-in-out infinite;
       filter: drop-shadow(0 8px 32px rgba(56, 142, 196, 0.25));
     }
@@ -95,10 +96,11 @@
       50% { transform: translateY(-8px); }
     }
 
-    /* Progress container */
+    /* Progress container — wide for portrait */
     #loader-progress-wrap {
       position: relative;
-      width: min(320px, 75vw);
+      width: 85vw;
+      max-width: 360px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -108,7 +110,7 @@
     /* Track */
     #loader-track {
       width: 100%;
-      height: 6px;
+      height: 5px;
       border-radius: 3px;
       background: rgba(255, 255, 255, 0.08);
       overflow: hidden;
@@ -160,11 +162,12 @@
       border-radius: 12px;
       background: rgba(255, 107, 107, 0.08);
       border: 1px solid rgba(255, 107, 107, 0.15);
-      max-width: min(400px, 85vw);
+      width: 85vw;
+      max-width: 360px;
       margin-top: 24px;
     }
 
-    /* Mobile warning */
+    /* Desktop warning */
     #loader-warning {
       display: none;
       position: relative;
@@ -172,7 +175,8 @@
       font-size: 12px;
       text-align: center;
       margin-top: 32px;
-      max-width: min(280px, 70vw);
+      width: 85vw;
+      max-width: 280px;
       line-height: 1.5;
     }
   </style>
@@ -193,7 +197,7 @@
       <div id="loader-percent">0%</div>
     </div>
     <div id="loader-error"></div>
-    <div id="loader-warning">Best experienced on a mobile device in portrait orientation</div>
+    <div id="loader-warning">This experience is designed for mobile devices in portrait orientation</div>
   </div>
 
   <script>

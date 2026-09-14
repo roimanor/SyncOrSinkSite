@@ -208,6 +208,19 @@
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
     }
 
+    .btn-store-badge.btn-disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      filter: grayscale(0.5);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-store-badge.btn-disabled:hover {
+      transform: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      filter: grayscale(0.5);
+    }
+
     .btn-store-badge img {
       height: 100%;
       width: auto;
@@ -304,8 +317,9 @@
       </div>
 
       <!-- 2a. Mobile Companion App Badge (Google Play on Android, App Store on iOS) -->
-      <a href="https://play.google.com/store/apps/details?id=com.SyrupyGames.SyncOrSink&hl=en" id="dest" class="btn-store-badge" target="_blank" rel="noopener" aria-label="Get it on Google Play">
-        <img id="store-badge-img" src="/assets/GetItOnGooglePlay_Badge_Web_color_English.svg" alt="Get it on Google Play" />
+      <!-- Play Store link disabled for now -->
+      <a id="dest" class="btn-store-badge btn-disabled" aria-label="Get it on Google Play (Coming Soon)" title="Google Play version coming soon" role="link" aria-disabled="true">
+        <img id="store-badge-img" src="/assets/GetItOnGooglePlay_Badge_Web_color_English.svg" alt="Get it on Google Play (Coming Soon)" />
       </a>
 
       <!-- 2b. Desktop Steam Button -->
@@ -344,7 +358,7 @@
       var playStoreURL = "https://play.google.com/store/apps/details?id=com.SyrupyGames.SyncOrSink&hl=en";
       var appStoreURL = "https://apps.apple.com/app/sync-or-sink/id6740000000";
       var steamURL = "https://store.steampowered.com/app/4677270/Sync_or_Sink/";
-      var webglURL = "https://syrupygames.com/play/" + address;
+      var webglURL = "https://play.syrupygames.com/" + address;
 
       // Device detection
       var isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
@@ -365,6 +379,10 @@
         if (storeBtn) {
           storeBtn.style.display = 'inline-flex';
           storeBtn.href = appStoreURL;
+          storeBtn.classList.remove('btn-disabled');
+          storeBtn.removeAttribute('title');
+          storeBtn.removeAttribute('aria-disabled');
+          storeBtn.onclick = null;
           storeBtn.setAttribute('aria-label', 'Download on App Store');
         }
         if (storeBadgeImg) {
@@ -375,12 +393,20 @@
       } else if (isAndroid) {
         if (storeBtn) {
           storeBtn.style.display = 'inline-flex';
-          storeBtn.href = playStoreURL;
-          storeBtn.setAttribute('aria-label', 'Get it on Google Play');
+          // Play Store disabled for now
+          storeBtn.removeAttribute('href');
+          storeBtn.classList.add('btn-disabled');
+          storeBtn.setAttribute('aria-label', 'Get it on Google Play (Coming Soon)');
+          storeBtn.setAttribute('title', 'Google Play version coming soon');
+          storeBtn.setAttribute('aria-disabled', 'true');
+          storeBtn.onclick = function (e) {
+            e.preventDefault();
+            return false;
+          };
         }
         if (storeBadgeImg) {
           storeBadgeImg.src = "/assets/GetItOnGooglePlay_Badge_Web_color_English.svg";
-          storeBadgeImg.alt = "Get it on Google Play";
+          storeBadgeImg.alt = "Get it on Google Play (Coming Soon)";
         }
         if (steamBtn) steamBtn.style.display = 'none';
       } else {

@@ -376,6 +376,7 @@
       var steamBtn = document.getElementById('steam-btn');
 
       if (isIOS) {
+        if (webglBtn) webglBtn.style.display = 'none';
         if (storeBtn) {
           storeBtn.style.display = 'inline-flex';
           storeBtn.href = appStoreURL;

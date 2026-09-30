@@ -208,6 +208,7 @@
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
     }
 
+    .btn-webgl.btn-disabled,
     .btn-store-badge.btn-disabled {
       opacity: 0.45;
       cursor: not-allowed;
@@ -215,6 +216,7 @@
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
+    .btn-webgl.btn-disabled:hover,
     .btn-store-badge.btn-disabled:hover {
       transform: none;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
@@ -307,9 +309,9 @@
     </div>
 
     <div class="redirect-actions">
-      <!-- 1. Play on WebGL Link -->
-      <a href="https://syrupygames.com/play/" id="webgl-link" class="btn-webgl">
-        Play on WebGL
+      <!-- 1. Play on WebGL Link (disabled for now) -->
+      <a id="webgl-link" class="btn-webgl btn-disabled" aria-label="Play on WebGL (Coming Soon)" title="WebGL version coming soon" role="link" aria-disabled="true">
+        Play on WebGL (Coming Soon)
       </a>
 
       <div class="options-divider">
@@ -363,10 +365,18 @@
       var isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
       var isAndroid = /android/i.test(userAgent);
 
-      // Setup WebGL link
+      // Setup WebGL link (disabled for now)
       var webglBtn = document.getElementById('webgl-link');
       if (webglBtn) {
-        webglBtn.href = webglURL;
+        webglBtn.removeAttribute('href');
+        webglBtn.classList.add('btn-disabled');
+        webglBtn.setAttribute('aria-label', 'Play on WebGL (Coming Soon)');
+        webglBtn.setAttribute('title', 'WebGL version coming soon');
+        webglBtn.setAttribute('aria-disabled', 'true');
+        webglBtn.onclick = function (e) {
+          e.preventDefault();
+          return false;
+        };
       }
 
       // Setup store button vs steam button

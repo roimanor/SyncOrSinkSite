@@ -642,6 +642,7 @@ ul {
   filter: brightness(1.08);
 }
 
+.btn-webgl.btn-disabled,
 .btn-store-badge.btn-disabled {
   opacity: 0.45;
   cursor: not-allowed;
@@ -649,6 +650,7 @@ ul {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
+.btn-webgl.btn-disabled:hover,
 .btn-store-badge.btn-disabled:hover {
   transform: none;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);

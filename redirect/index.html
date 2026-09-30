@@ -317,9 +317,8 @@
       </div>
 
       <!-- 2a. Mobile Companion App Badge (Google Play on Android, App Store on iOS) -->
-      <!-- Play Store link disabled for now -->
-      <a id="dest" class="btn-store-badge btn-disabled" aria-label="Get it on Google Play (Coming Soon)" title="Google Play version coming soon" role="link" aria-disabled="true">
-        <img id="store-badge-img" src="/assets/GetItOnGooglePlay_Badge_Web_color_English.svg" alt="Get it on Google Play (Coming Soon)" />
+      <a href="https://play.google.com/store/apps/details?id=com.SyrupyGames.SyncOrSink&hl=en" id="dest" class="btn-store-badge" aria-label="Get it on Google Play">
+        <img id="store-badge-img" src="/assets/GetItOnGooglePlay_Badge_Web_color_English.svg" alt="Get it on Google Play" />
       </a>
 
       <!-- 2b. Desktop Steam Button -->
@@ -394,20 +393,16 @@
       } else if (isAndroid) {
         if (storeBtn) {
           storeBtn.style.display = 'inline-flex';
-          // Play Store disabled for now
-          storeBtn.removeAttribute('href');
-          storeBtn.classList.add('btn-disabled');
-          storeBtn.setAttribute('aria-label', 'Get it on Google Play (Coming Soon)');
-          storeBtn.setAttribute('title', 'Google Play version coming soon');
-          storeBtn.setAttribute('aria-disabled', 'true');
-          storeBtn.onclick = function (e) {
-            e.preventDefault();
-            return false;
-          };
+          storeBtn.href = playStoreURL;
+          storeBtn.classList.remove('btn-disabled');
+          storeBtn.removeAttribute('title');
+          storeBtn.removeAttribute('aria-disabled');
+          storeBtn.onclick = null;
+          storeBtn.setAttribute('aria-label', 'Get it on Google Play');
         }
         if (storeBadgeImg) {
           storeBadgeImg.src = "/assets/GetItOnGooglePlay_Badge_Web_color_English.svg";
-          storeBadgeImg.alt = "Get it on Google Play (Coming Soon)";
+          storeBadgeImg.alt = "Get it on Google Play";
         }
         if (steamBtn) steamBtn.style.display = 'none';
       } else {

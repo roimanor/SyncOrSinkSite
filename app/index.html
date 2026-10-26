@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Opening Sync - Sink…</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" type="image/png" href="/assets/syrupygames.png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css?v=1.1.4" />
+  <style>
+    * {
+      font-family: 'Baloo 2', cursive, sans-serif !important;
+      box-sizing: border-box;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      background:
+        radial-gradient(ellipse 70% 50% at 50% 10%, rgba(137, 196, 225, 0.35) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 85%, rgba(91, 173, 78, 0.18) 0%, transparent 50%),
+        var(--clr-cream);
+      color: var(--clr-text);
+      padding: 90px 20px 40px;
+    }
+
+    .app-card,
+    .redirect-card {
+      max-width: 440px;
+      width: 100%;
+      background: var(--clr-white);
+      border: 2px solid var(--clr-border);
+      border-radius: var(--radius-lg);
+      padding: 36px 28px;
+      box-shadow: var(--shadow-card);
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 0 auto;
+    }
+
+    .card-title-logo {
+      width: 180px;
+      max-width: 70%;
+      height: auto;
+      margin-bottom: 12px;
+      display: block;
+    }
+
+    h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--clr-text);
+      margin-bottom: 6px;
+      line-height: 1.15;
+    }
+
+    .status {
+      color: var(--clr-text-muted);
+      font-size: 1.05rem;
+      font-weight: 600;
+      margin-bottom: 18px;
+      line-height: 1.45;
+      max-width: 360px;
+    }
+
+    .address-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--clr-sky-pale);
+      border: 1.5px solid var(--clr-border-water);
+      color: var(--clr-water-dark);
+      padding: 5px 16px;
+      border-radius: 50px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      margin-bottom: 24px;
+    }
+
+    .address-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--clr-green);
+      box-shadow: 0 0 8px var(--clr-green);
+      animation: blink 1.6s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.35; }
+    }
+
+    .app-actions,
+    .redirect-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 14px;
+      width: 100%;
+      margin-bottom: 14px;
+    }
+
+    /* WebGL Play Button: Matching main page .btn-primary */
+    .btn-webgl {
+      width: 100%;
+      font-size: 1.2rem;
+      font-weight: 800;
+      padding: 14px 28px;
+      border-radius: 50px;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, var(--clr-water), var(--clr-water-dark));
+      color: #fff;
+      box-shadow: var(--shadow-water);
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-webgl:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 30px rgba(0, 184, 204, 0.5);
+      color: #fff;
+    }
+
+    .options-divider {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--clr-text-dim);
+      letter-spacing: 0.1em;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+    }
+
+    .options-divider::before,
+    .options-divider::after {
+      content: "";
+      flex: 1;
+      height: 2px;
+      background: var(--clr-border);
+    }
+
+    /* Dedicated Steam Action Button for Desktop */
+    .btn-steam-action {
+      width: 100%;
+      font-size: 1.15rem;
+      font-weight: 800;
+      padding: 13px 28px;
+      border-radius: 50px;
+      text-decoration: none;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      background: linear-gradient(135deg, #1b2838 0%, #2a475e 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 18px rgba(27, 40, 56, 0.4);
+      border: 1px solid rgba(102, 192, 244, 0.35);
+      transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.2s ease;
+      cursor: pointer;
+    }
+
+    .btn-steam-action:hover {
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 24px rgba(102, 192, 244, 0.35);
+      color: #ffffff;
+    }
+
+    .steam-icon {
+      width: 22px;
+      height: 22px;
+    }
+
+    /* Asset Store Badge Buttons for Mobile */
+    .btn-store-badge {
+      display: none;
+      align-items: center;
+      justify-content: center;
+      height: 52px;
+      width: auto;
+      max-width: 100%;
+      border-radius: 8px;
+      overflow: hidden;
+      text-decoration: none;
+      transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.22s ease;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+      background: transparent;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-store-badge:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+    }
+
+    .btn-webgl.btn-disabled,
+    .btn-store-badge.btn-disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      filter: grayscale(0.5);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-webgl.btn-disabled:hover,
+    .btn-store-badge.btn-disabled:hover {
+      transform: none;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      filter: grayscale(0.5);
+    }
+
+    .btn-store-badge img {
+      height: 100%;
+      width: auto;
+      display: block;
+    }
+
+    /* Retry app launch footer link */
+    .relaunch-link {
+      color: var(--clr-text-muted);
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
+      margin-top: 6px;
+      cursor: pointer;
+    }
+
+    .relaunch-link:hover {
+      color: var(--clr-water-dark);
+      text-decoration: underline;
+    }
+
+    @media (max-width: 480px) {
+      body {
+        padding: 70px 16px 30px;
+      }
+
+      .app-card,
+      .redirect-card {
+        padding: 28px 18px;
+      }
+
+      h1 {
+        font-size: 1.75rem;
+      }
+
+      .status {
+        font-size: 0.95rem;
+      }
+
+      .btn-webgl,
+      .btn-steam-action {
+        font-size: 1.1rem;
+        padding: 12px 20px;
+      }
+
+      .btn-store-badge {
+        height: 46px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Standard Site Navigation -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a class="nav-logo" href="/">
+        <img src="/assets/title2.png" alt="Sync - Sink" class="nav-logo-img" />
+      </a>
+      <div class="nav-links">
+        <a href="/#about">About</a>
+        <a href="/#features">Features</a>
+        <a href="/#download">Download</a>
+        <a href="/presskit/index.html">Press Kit</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="app-card redirect-card">
+    <img src="/assets/title2.png" alt="Sync - Sink" class="card-title-logo" />
+
+    <h1>Opening the app…</h1>
+    <p class="status">
+      Launching Sync - Sink on your device.<br />
+      If the app didn't open, choose how you'd like to play:
+    </p>
+
+    <div id="room-badge" class="address-badge" style="display: none;">
+      <span class="address-dot"></span>
+      <span>Session: <strong id="room-code"></strong></span>
+    </div>
+
+    <div class="app-actions redirect-actions">
+      <!-- 1. Play on WebGL Link (disabled for now) -->
+      <a id="webgl-link" class="btn-webgl btn-disabled" aria-label="Play on WebGL (Coming Soon)" title="WebGL version coming soon" role="link" aria-disabled="true">
+        Play on WebGL (Coming Soon)
+      </a>
+
+      <div class="options-divider">
+        <span>OR</span>
+      </div>
+
+      <!-- 2a. Mobile Companion App Badge (Google Play on Android, App Store on iOS) -->
+      <a href="https://play.google.com/store/apps/details?id=com.SyrupyGames.SyncOrSink&hl=en" id="dest" class="btn-store-badge" aria-label="Get it on Google Play">
+        <img id="store-badge-img" src="/assets/GetItOnGooglePlay_Badge_Web_color_English.svg" alt="Get it on Google Play" />
+      </a>
+
+      <!-- 2b. Desktop Steam Button -->
+      <a href="https://store.steampowered.com/app/4677270/Sync_or_Sink/" id="steam-btn" class="btn-steam-action" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" class="steam-icon"><path fill="currentColor" d="M11.979 0C5.678 0 .511 4.86.022 11.037l6.432 2.658c.545-.371 1.203-.59 1.912-.59.063 0 .125.004.188.006l2.861-4.142V8.91c0-2.495 2.028-4.524 4.524-4.524 2.494 0 4.524 2.031 4.524 4.527s-2.03 4.525-4.524 4.525h-.105l-4.076 2.911c0 .052.005.105.005.159 0 1.875-1.515 3.396-3.39 3.396-1.635 0-3.016-1.173-3.331-2.727L.436 14.819C1.724 20.065 6.416 24 12 24c6.627 0 12-5.373 12-12S18.627 0 11.979 0z"/></svg>
+        <span>View on Steam</span>
+      </a>
+    </div>
+
+    <!-- Retry opening app -->
+    <a href="syncorsink://" id="relaunch-app" class="relaunch-link">
+      Already have the app? Tap to open again
+    </a>
+  </div>
+
+  <script type="text/javascript">
+    window.onload = function () {
+      var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+
+      // Extract the address from query string (?address), path (/app/address or /redirect/address), or hash (#address)
+      var rawSearch = window.location.search.replace(/^\?/, '');
+      var rawPath = window.location.pathname.replace(/^.*\/(?:app|redirect)\/?/, '').replace(/^\/+/, '');
+      if (rawPath === 'index.html' || rawPath === 'index.htm') {
+        rawPath = '';
+      }
+      var rawHash = window.location.hash.replace(/^#/, '');
+
+      var params = new URLSearchParams(window.location.search);
+      var queryAddress = params.get('address') || params.get('code') || params.get('room') || params.get('ip');
+
+      var address = queryAddress || (rawSearch.indexOf('=') === -1 ? rawSearch : '') || rawPath || rawHash || '';
+      address = address.trim();
+
+      // Target Links
+      var appScheme = "syncorsink://" + address;
+      var playStoreURL = "https://play.google.com/store/apps/details?id=com.SyrupyGames.SyncOrSink&hl=en";
+      var appStoreURL = "https://apps.apple.com/app/id6804139454";
+      var steamURL = "https://store.steampowered.com/app/4677270/Sync_or_Sink/";
+      var webglURL = "http://play.syrupygames.com/" + address;
+
+      // Device detection
+      var isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
+      var isAndroid = /android/i.test(userAgent);
+      var targetStoreURL = isIOS ? appStoreURL : (isAndroid ? playStoreURL : steamURL);
+
+      // Setup WebGL link (disabled for now)
+      var webglBtn = document.getElementById('webgl-link');
+      if (webglBtn) {
+        webglBtn.removeAttribute('href');
+        webglBtn.classList.add('btn-disabled');
+        webglBtn.setAttribute('aria-label', 'Play on WebGL (Coming Soon)');
+        webglBtn.setAttribute('title', 'WebGL version coming soon');
+        webglBtn.setAttribute('aria-disabled', 'true');
+        webglBtn.onclick = function (e) {
+          e.preventDefault();
+          return false;
+        };
+      }
+
+      // Setup store button vs steam button
+      var storeBtn = document.getElementById('dest');
+      var storeBadgeImg = document.getElementById('store-badge-img');
+      var steamBtn = document.getElementById('steam-btn');
+
+      if (isIOS) {
+        if (webglBtn) webglBtn.style.display = 'none';
+        if (storeBtn) {
+          storeBtn.style.display = 'inline-flex';
+          storeBtn.href = appStoreURL;
+          storeBtn.classList.remove('btn-disabled');
+          storeBtn.removeAttribute('title');
+          storeBtn.removeAttribute('aria-disabled');
+          storeBtn.onclick = null;
+          storeBtn.setAttribute('aria-label', 'Download on App Store');
+        }
+        if (storeBadgeImg) {
+          storeBadgeImg.src = "/assets/Download_on_App_Store/Black_lockup/SVG/Download_on_the_App_Store_Badge_US-UK_RGB_blk_092917.svg";
+          storeBadgeImg.alt = "Download on the App Store";
+        }
+        if (steamBtn) steamBtn.style.display = 'none';
+      } else if (isAndroid) {
+        if (storeBtn) {
+          storeBtn.style.display = 'inline-flex';
+          storeBtn.href = playStoreURL;
+          storeBtn.classList.remove('btn-disabled');
+          storeBtn.removeAttribute('title');
+          storeBtn.removeAttribute('aria-disabled');
+          storeBtn.onclick = null;
+          storeBtn.setAttribute('aria-label', 'Get it on Google Play');
+        }
+        if (storeBadgeImg) {
+          storeBadgeImg.src = "/assets/GetItOnGooglePlay_Badge_Web_color_English.svg";
+          storeBadgeImg.alt = "Get it on Google Play";
+        }
+        if (steamBtn) steamBtn.style.display = 'none';
+      } else {
+        // Desktop: show clean View on Steam button
+        if (storeBtn) storeBtn.style.display = 'none';
+        if (steamBtn) {
+          steamBtn.style.display = 'inline-flex';
+          steamBtn.href = steamURL;
+        }
+      }
+
+      // Setup manual relaunch link
+      var relaunchBtn = document.getElementById('relaunch-app');
+      if (relaunchBtn) {
+        relaunchBtn.href = appScheme;
+      }
+
+      // Setup room badge
+      var roomBadge = document.getElementById('room-badge');
+      var roomCode = document.getElementById('room-code');
+      if (roomBadge && roomCode) {
+        if (address) {
+          roomCode.textContent = address;
+          roomBadge.style.display = 'inline-flex';
+        } else {
+          roomBadge.style.display = 'none';
+        }
+      }
+
+      // Launch app automatically on mobile devices
+      if (isIOS || isAndroid) {
+        window.location.href = appScheme;
+      }
+
+      // Redirect to platform store / Steam after 1 second (same as the button)
+      var hasRedirected = false;
+      var redirectTimeout = setTimeout(function () {
+        if (!hasRedirected && !document.hidden && !document.webkitHidden) {
+          hasRedirected = true;
+          window.location.href = targetStoreURL;
+        }
+      }, 1000);
+
+      // If user switches away (e.g. app launched successfully), cancel store redirect
+      function onPageHidden() {
+        if (document.hidden || document.webkitHidden) {
+          clearTimeout(redirectTimeout);
+        }
+      }
+      document.addEventListener('visibilitychange', onPageHidden);
+      document.addEventListener('pagehide', onPageHidden);
+
+      if (storeBtn) {
+        storeBtn.addEventListener('click', function () {
+          clearTimeout(redirectTimeout);
+        });
+      }
+      if (steamBtn) {
+        steamBtn.addEventListener('click', function () {
+          clearTimeout(redirectTimeout);
+        });
+      }
+      if (relaunchBtn) {
+        relaunchBtn.addEventListener('click', function () {
+          clearTimeout(redirectTimeout);
+        });
+      }
+    };
+  </script>
+</body>
+
+</html>

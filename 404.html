@@ -23,10 +23,10 @@
     (function () {
       var pathname = window.location.pathname;
 
-      // Forward /redirect/... to /redirect/?address so redirect/index.html handles it
-      if (pathname.indexOf('/redirect') !== -1) {
+      // Forward /app/... or /redirect/... to /app/?address so app/index.html handles it
+      if (pathname.indexOf('/app') !== -1 || pathname.indexOf('/redirect') !== -1) {
         var rawSearch = window.location.search.replace(/^\?/, '');
-        var rawPath = pathname.replace(/^.*\/redirect\/?/, '').replace(/^\/+/, '');
+        var rawPath = pathname.replace(/^.*\/(?:app|redirect)\/?/, '').replace(/^\/+/, '');
         if (rawPath === 'index.html' || rawPath === 'index.htm') {
           rawPath = '';
         }
@@ -36,7 +36,7 @@
         var address = queryAddress || (rawSearch.indexOf('=') === -1 ? rawSearch : '') || rawPath || rawHash || '';
         address = address.trim();
 
-        window.location.replace('/redirect/?' + address);
+        window.location.replace('/app/?' + address + (rawHash ? '#' + rawHash : ''));
         return;
       }
 

@@ -34,6 +34,7 @@
       padding: 90px 20px 40px;
     }
 
+    .app-card,
     .redirect-card {
       max-width: 440px;
       width: 100%;
@@ -102,6 +103,7 @@
       50% { opacity: 0.35; }
     }
 
+    .app-actions,
     .redirect-actions {
       display: flex;
       flex-direction: column;
@@ -253,6 +255,7 @@
         padding: 70px 16px 30px;
       }
 
+      .app-card,
       .redirect-card {
         padding: 28px 18px;
       }
@@ -294,7 +297,7 @@
     </div>
   </nav>
 
-  <div class="redirect-card">
+  <div class="app-card redirect-card">
     <img src="/assets/title2.png" alt="Sync - Sink" class="card-title-logo" />
 
     <h1>Opening the app…</h1>
@@ -308,7 +311,7 @@
       <span>Session: <strong id="room-code"></strong></span>
     </div>
 
-    <div class="redirect-actions">
+    <div class="app-actions redirect-actions">
       <!-- 1. Play on WebGL Link (disabled for now) -->
       <a id="webgl-link" class="btn-webgl btn-disabled" aria-label="Play on WebGL (Coming Soon)" title="WebGL version coming soon" role="link" aria-disabled="true">
         Play on WebGL (Coming Soon)
@@ -340,9 +343,9 @@
     window.onload = function () {
       var userAgent = navigator.userAgent || navigator.vendor || window.opera;
 
-      // Extract the address from query string (?address), path (/redirect/address), or hash (#address)
+      // Extract the address from query string (?address), path (/app/address or /redirect/address), or hash (#address)
       var rawSearch = window.location.search.replace(/^\?/, '');
-      var rawPath = window.location.pathname.replace(/^.*\/redirect\/?/, '').replace(/^\/+/, '');
+      var rawPath = window.location.pathname.replace(/^.*\/(?:app|redirect)\/?/, '').replace(/^\/+/, '');
       if (rawPath === 'index.html' || rawPath === 'index.htm') {
         rawPath = '';
       }
@@ -364,6 +367,7 @@
       // Device detection
       var isIOS = /iPad|iPhone|iPod/.test(userAgent) && !window.MSStream;
       var isAndroid = /android/i.test(userAgent);
+      var targetStoreURL = isIOS ? appStoreURL : (isAndroid ? playStoreURL : steamURL);
 
       // Setup WebGL link (disabled for now)
       var webglBtn = document.getElementById('webgl-link');
@@ -445,6 +449,40 @@
       // Launch app automatically on mobile devices
       if (isIOS || isAndroid) {
         window.location.href = appScheme;
+      }
+
+      // Redirect to platform store / Steam after 1 second (same as the button)
+      var hasRedirected = false;
+      var redirectTimeout = setTimeout(function () {
+        if (!hasRedirected && !document.hidden && !document.webkitHidden) {
+          hasRedirected = true;
+          window.location.href = targetStoreURL;
+        }
+      }, 1000);
+
+      // If user switches away (e.g. app launched successfully), cancel store redirect
+      function onPageHidden() {
+        if (document.hidden || document.webkitHidden) {
+          clearTimeout(redirectTimeout);
+        }
+      }
+      document.addEventListener('visibilitychange', onPageHidden);
+      document.addEventListener('pagehide', onPageHidden);
+
+      if (storeBtn) {
+        storeBtn.addEventListener('click', function () {
+          clearTimeout(redirectTimeout);
+        });
+      }
+      if (steamBtn) {
+        steamBtn.addEventListener('click', function () {
+          clearTimeout(redirectTimeout);
+        });
+      }
+      if (relaunchBtn) {
+        relaunchBtn.addEventListener('click', function () {
+          clearTimeout(redirectTimeout);
+        });
       }
     };
   </script>
